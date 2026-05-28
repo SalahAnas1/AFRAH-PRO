@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   تعريف الألوان والخطوط المخصصة للمشروع
+   في Tailwind v4 نضع هذا داخل @theme
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@theme {
+  /* ألوان المشروع الرئيسية */
+  --color-navy:         #071B36;
+  --color-navy-light:   #102745;
+
+  --color-gold:         #C9AA72;
+  --color-gold-light:   #B9985D;
+  --color-gold-pale:    #D8C29A;
+
+  --color-cream:        #F3EFE8;
+  --color-cream-light:  #FAFAF8;
+
+  --color-dark:         #1B1B1B;
+  --color-gray-text:    #7A7A7A;
+  --color-border:       #D9D9D9;
+
+  /* الخط الافتراضي */
+  --font-sans: "Cairo", sans-serif;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   إعدادات عامة للصفحة
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Cairo", sans-serif;
+  background-color: #F3EFE8;
+  color: #1B1B1B;
+}
+
+/* Scrollbar مخصص */
+::-webkit-scrollbar         { width: 6px; }
+::-webkit-scrollbar-track   { background: #F3EFE8; }
+::-webkit-scrollbar-thumb   { background: #C9AA72; border-radius: 3px; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Dark Mode — إعادة تعريف الألوان المخصصة
+   هذا يكفي لتحديث جميع المكوّنات تلقائياً
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.dark {
+  --color-cream:       #071B36;
+  --color-cream-light: #102745;
+  --color-dark:        #FAFAF8;
+  --color-gray-text:   #D8C29A;
+  --color-border:      #1E3A5F;
+}
+
+/* ألوان المشروع المخصصة — overrides مباشرة لضمان عمل الدارك مود */
+.dark .bg-cream              { background-color: #071B36 !important; }
+.dark .bg-cream-light        { background-color: #102745 !important; }
+.dark .text-dark             { color: #FAFAF8 !important; }
+.dark .text-gray-text        { color: #D8C29A !important; }
+.dark .border-border         { border-color: #1E3A5F !important; }
+.dark .divide-border         > * + * { border-color: #1E3A5F !important; }
+
+/* Navy و Gold يبقيان كما هما في الدارك مود */
+
+.dark body {
+  background-color: #071B36;
+  color: #FAFAF8;
+}
+
+/* Scrollbar داكن */
+.dark ::-webkit-scrollbar-track { background: #071B36; }
+.dark ::-webkit-scrollbar-thumb { background: #C9AA72; }
+
+/* ─── ألوان Tailwind المدمجة (bg-white, text-gray-*, ...) ───────────────
+   نضيف dark: prefix هنا بدل لمس كل مكوّن بشكل فردي               */
+
+/* الخلفيات */
+.dark .bg-white           { background-color: #102745; }
+.dark .bg-gray-50         { background-color: #0D2140; }
+.dark .bg-gray-100        { background-color: #132E52; }
+.dark .bg-gray-200        { background-color: #1A3866; }
+.dark .bg-gray-800        { background-color: #FAFAF8; }
+
+/* الخلفية مع شفافية (Tailwind opacity modifier) */
+.dark .bg-gray-50\/60     { background-color: rgba(7, 27, 54, 0.8); }
+.dark .bg-gray-50\/80     { background-color: rgba(7, 27, 54, 0.9); }
+.dark .bg-white\/10       { background-color: rgba(255,255,255,0.1); }
+
+/* النصوص */
+.dark .text-gray-800      { color: #FAFAF8; }
+.dark .text-gray-700      { color: #EAD9BB; }
+.dark .text-gray-600      { color: #D8C29A; }
+.dark .text-gray-500      { color: #A89878; }
+.dark .text-gray-400      { color: #8A7860; }
+.dark .text-gray-300      { color: #6A5840; }
+
+/* الحدود */
+.dark .border-gray-200    { border-color: #1E3A5F; }
+.dark .border-gray-100    { border-color: #162F50; }
+.dark .border-gray-300    { border-color: #2A4870; }
+.dark .divide-gray-50     > * + * { border-color: #162F50; }
+.dark .divide-gray-100    > * + * { border-color: #1E3A5F; }
+
+/* Hover states */
+.dark .hover\:bg-gray-50:hover  { background-color: #0D2140; }
+.dark .hover\:bg-gray-100:hover { background-color: #132E52; }
+.dark .hover\:bg-gray-50\/80:hover { background-color: rgba(13,33,64,0.9); }
+
+/* ─── حالات خاصة مستخدمة في الداشبورد والجداول ────────────────────── */
+
+/* رأس الجدول */
+.dark thead tr   { background-color: #0D2140; }
+.dark tbody tr:hover { background-color: rgba(16, 39, 69, 0.7); }
+
+/* Input الحجوزات */
+.dark input[type="text"],
+.dark input[type="email"],
+.dark input[type="password"],
+.dark input[type="number"],
+.dark input[type="date"],
+.dark input[type="month"],
+.dark select,
+.dark textarea {
+  background-color: #0D2140;
+  color: #FAFAF8;
+  border-color: #1E3A5F;
+}
+.dark input::placeholder,
+.dark textarea::placeholder { color: #A89878; }
+
+/* بطاقات الألوان الملوّنة — احتفاظ بالألوان المحددة في light */
+.dark .bg-blue-50   { background-color: rgba(59,130,246,0.12); }
+.dark .bg-green-50  { background-color: rgba(34,197,94,0.12);  }
+.dark .bg-red-50    { background-color: rgba(239,68,68,0.12);  }
+.dark .bg-orange-50 { background-color: rgba(249,115,22,0.12); }
+.dark .bg-amber-50  { background-color: rgba(245,158,11,0.12); }
+.dark .bg-purple-50 { background-color: rgba(168,85,247,0.12); }
+.dark .bg-emerald-50{ background-color: rgba(16,185,129,0.12); }
+.dark .bg-rose-50   { background-color: rgba(244,63,94,0.12);  }
+.dark .bg-cyan-50   { background-color: rgba(6,182,212,0.12);  }
+
+/* النصوص الملوّنة تبقى كما هي */
+
+/* الإدخالات والحقول في صفحات bookings الموسّعة */
+.dark .border-gray-200.rounded-lg { border-color: #1E3A5F; }
+.dark .focus\:border-rose-400:focus { border-color: #f43f5e; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   مكونات مشتركة في المشروع
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@layer components {
+  /* زر أساسي ذهبي */
+  .btn-primary {
+    @apply bg-gold text-navy font-semibold px-4 py-2 rounded-lg
+           hover:bg-gold-light transition-colors duration-200
+           flex items-center gap-2 justify-center cursor-pointer;
+  }
+
+  /* زر ثانوي (حدود ذهبية) */
+  .btn-secondary {
+    @apply bg-transparent border border-gold text-gold font-semibold
+           px-4 py-2 rounded-lg hover:bg-gold/10 transition-colors duration-200
+           flex items-center gap-2 justify-center cursor-pointer;
+  }
+
+  /* بطاقة بيضاء */
+  .card {
+    @apply bg-cream-light rounded-xl border border-border p-4 shadow-sm;
+  }
+
+  /* حقل إدخال */
+  .input-field {
+    @apply w-full border border-border rounded-lg px-3 py-2.5
+           bg-cream-light text-dark placeholder:text-gray-text
+           focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/50
+           transition-colors duration-200 text-sm;
+  }
+
+  /* تسمية حقل */
+  .label {
+    @apply block text-sm font-medium text-dark mb-1.5;
+  }
+}
