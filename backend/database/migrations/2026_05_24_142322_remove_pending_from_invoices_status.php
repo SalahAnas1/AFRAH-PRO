@@ -7,13 +7,25 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // تحويل أي فاتورة معلقة إلى غير مدفوعة أولاً
         DB::statement("UPDATE invoices SET status = 'unpaid' WHERE status = 'pending'");
-        DB::statement("ALTER TABLE invoices MODIFY COLUMN status ENUM('paid', 'unpaid') NOT NULL DEFAULT 'unpaid'");
+
+        $driver = DB::getDriverName();
+        if ($driver === 'pgsql') {
+            DB::statement("ALTER TABLE invoices DROP CONSTRAINT IF EXISTS invoices_status_check");
+            DB::statement("ALTER TABLE invoices ADD CONSTRAINT invoices_status_check CHECK (status IN ('paid', 'unpaid'))");
+        } else {
+            DB::statement("ALTER TABLE invoices MODIFY COLUMN status ENUM('paid', 'unpaid') NOT NULL DEFAULT 'unpaid'");
+        }
     }
 
     public function down(): void
     {
-        DB::statement("ALTER TABLE invoices MODIFY COLUMN status ENUM('paid', 'unpaid', 'pending') NOT NULL DEFAULT 'unpaid'");
+        $driver = DB::getDriverName();
+        if ($driver === 'pgsql') {
+            DB::statement("ALTER TABLE invoices DROP CONSTRAINT IF EXISTS invoices_status_check");
+            DB::statement("ALTER TABLE invoices ADD CONSTRAINT invoices_status_check CHECK (status IN ('paid', 'unpaid', 'pending'))");
+        } else {
+            DB::statement("ALTER TABLE invoices MODIFY COLUMN status ENUM('paid', 'unpaid', 'pending') NOT NULL DEFAULT 'unpaid'");
+        }
     }
 };
