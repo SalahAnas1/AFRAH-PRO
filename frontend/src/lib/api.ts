@@ -1,7 +1,11 @@
 import axios from "axios";
 
+const RAILWAY_URL = "https://backend-production-56fd.up.railway.app/api";
+const rawUrl = process.env.NEXT_PUBLIC_API_URL ?? RAILWAY_URL;
+const BASE_URL = rawUrl.replace(/^﻿/, "").trim() || RAILWAY_URL;
+
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api",
+  baseURL: BASE_URL,
   headers: { "Content-Type": "application/json", Accept: "application/json" },
 });
 
