@@ -115,6 +115,11 @@ export default function LoginPage() {
           </form>
         </div>
 
+        {/* debug */}
+        <p className="text-white/30 text-xs text-center mt-2 font-mono break-all">
+          API: {process.env.NEXT_PUBLIC_API_URL ?? "NOT SET"}
+        </p>
+
         {/* بيانات تجريبية — قابلة للنقر */}
         <div className="mt-4 space-y-2">
           <button
