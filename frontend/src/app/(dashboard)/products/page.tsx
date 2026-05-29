@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 
 // ── وحدات القياس ─────────────────────────────────────────────────────────
+const STORAGE_URL = (process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') ?? 'http://localhost:8000') + '/storage';
+
 const UNITS = ["قطعة", "كيلو", "لتر", "متر", "صندوق", "طقم", "زوج"];
 
 // ── بادج المخزون ─────────────────────────────────────────────────────────
@@ -200,7 +202,7 @@ function ProductModal({ isOpen, onClose, onSave, categories, setCategories, edit
       setStock(String(editingProduct.stock));
       setUnit(editingProduct.unit);
       setImagePreview(
-        editingProduct.image ? `http://localhost:8000/storage/${editingProduct.image}` : null
+        editingProduct.image ? `${STORAGE_URL}/${editingProduct.image}` : null
       );
     } else {
       setName(""); setCategoryId(""); setDescription("");
@@ -507,7 +509,7 @@ export default function ProductsPage() {
                       <div className="flex items-center gap-3">
                         <div className="w-12 h-12 rounded-lg bg-cream border border-border flex items-center justify-center flex-shrink-0 overflow-hidden">
                           {product.image
-                            ? <img src={`http://localhost:8000/storage/${product.image}`} alt={product.name} className="w-full h-full object-cover" />
+                            ? <img src={`${STORAGE_URL}/${product.image}`} alt={product.name} className="w-full h-full object-cover" />
                             : <Package size={20} className="text-gray-text" />}
                         </div>
                         <span className="font-semibold text-dark text-sm">{product.name}</span>

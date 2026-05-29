@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 
 // ── ألوان الفئات ──────────────────────────────────────────────────────────
+const STORAGE_URL = (process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') ?? 'http://localhost:8000') + '/storage';
+
 const CATEGORY_COLORS: Record<string, string> = {
   "التصوير":  "bg-orange-100 text-orange-700",
   "الديكور":  "bg-purple-100 text-purple-700",
@@ -222,7 +224,7 @@ function ServiceModal({
       setPrice(editingService.price);
       setImagePreview(
         editingService.image
-          ? `http://localhost:8000/storage/${editingService.image}`
+          ? `${STORAGE_URL}/${editingService.image}`
           : null
       );
     } else {
@@ -572,7 +574,7 @@ export default function ServicesPage() {
                         <div className="w-12 h-12 rounded-lg bg-cream border border-border flex items-center justify-center flex-shrink-0 overflow-hidden">
                           {service.image ? (
                             <img
-                              src={`http://localhost:8000/storage/${service.image}`}
+                              src={`${STORAGE_URL}/${service.image}`}
                               alt={service.name}
                               className="w-full h-full object-cover"
                             />

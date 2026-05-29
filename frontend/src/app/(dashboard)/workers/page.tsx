@@ -9,6 +9,8 @@ import {
   ChevronLeft, ChevronRight, Upload, Phone, UserCircle2,
 } from "lucide-react";
 
+const STORAGE_URL = (process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') ?? 'http://localhost:8000') + '/storage';
+
 const ROLES = [
   "مصور", "منسق ديكور", "طاهي", "نادل", "مسؤول صوتيات",
   "موسيقي", "حارس أمن", "عامل نظافة", "مدير قاعة", "مساعد إداري",
@@ -44,7 +46,7 @@ function WorkerModal({ isOpen, onClose, onSave, editingWorker }: WorkerModalProp
       setName(editingWorker.name);
       setPhone(editingWorker.phone ?? "");
       setImagePreview(
-        editingWorker.image ? `http://localhost:8000/storage/${editingWorker.image}` : null
+        editingWorker.image ? `${STORAGE_URL}/${editingWorker.image}` : null
       );
       if (editingWorker.role && ROLES.includes(editingWorker.role)) {
         setRole(editingWorker.role);
@@ -275,7 +277,7 @@ export default function WorkersPage() {
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-cream border border-border flex items-center justify-center flex-shrink-0 overflow-hidden">
                           {worker.image
-                            ? <img src={`http://localhost:8000/storage/${worker.image}`} alt={worker.name} className="w-full h-full object-cover" />
+                            ? <img src={`${STORAGE_URL}/${worker.image}`} alt={worker.name} className="w-full h-full object-cover" />
                             : <UserCircle2 size={22} className="text-gray-text" />}
                         </div>
                         <span className="font-semibold text-dark text-sm">{worker.name}</span>
