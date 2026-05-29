@@ -115,15 +115,19 @@ export default function LoginPage() {
           </form>
         </div>
 
-        {/* بيانات تجريبية */}
+        {/* بيانات تجريبية — قابلة للنقر */}
         <div className="mt-4 space-y-2">
-          <div className="bg-white/5 rounded-xl p-4">
+          <button
+            type="button"
+            onClick={() => { setEmail("admin@test.com"); setPassword("password"); }}
+            className="w-full bg-white/5 hover:bg-white/10 transition-colors rounded-xl p-4 text-right"
+          >
             <div className="flex items-center gap-2 mb-1.5">
               <Crown size={13} className="text-gold/70" />
-              <p className="text-white/50 text-xs">مدير المحل</p>
+              <p className="text-white/50 text-xs">مدير المحل — انقر لملء البيانات</p>
             </div>
             <p className="text-gold/80 text-sm font-mono">admin@test.com / password</p>
-          </div>
+          </button>
         </div>
 
       </div>
