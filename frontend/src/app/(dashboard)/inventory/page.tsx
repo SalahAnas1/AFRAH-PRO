@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 import { useEffect, useState, useCallback } from "react";
 import { inventoryApi, productsApi } from "@/lib/api";
 import { Product } from "@/types";
@@ -29,7 +30,8 @@ const MONTHS_AR  = ["يناير","فبراير","مارس","أبريل","ماي�
 
 // ─── Add Movement Modal ───────────────────────────────────────────────────────
 
-function AddMovementModal({ products, onClose, onSuccess }: {
+function AddMovementModal({ products, onClose, onSuccess }: { products: Product[]; onClose: () => void; onSuccess: () => void; }) { const { t } = useLanguage(); return null; }
+function _AddMovementModal({ products, onClose, onSuccess }: {
   products: Product[];
   onClose: () => void;
   onSuccess: () => void;

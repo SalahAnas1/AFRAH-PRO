@@ -4,10 +4,12 @@ import { usePathname } from "next/navigation";
 import Sidebar from "./Sidebar";
 import { Menu, Crown } from "lucide-react";
 import DarkModeToggle from "@/components/DarkModeToggle";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function LayoutShell({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useState(false);
-  const pathname = usePathname();
+  const [open, setOpen]  = useState(false);
+  const pathname         = usePathname();
+  const { t }            = useLanguage();
 
   useEffect(() => { setOpen(false); }, [pathname]);
 
@@ -22,13 +24,14 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
 
       <Sidebar open={open} onClose={() => setOpen(false)} />
 
-      <main className="flex-1 lg:mr-[210px] min-h-screen overflow-x-hidden">
-        {/* شريط الهاتف العلوي مع زر القائمة */}
+      {/* ms- = margin-inline-start: يعمل تلقائياً RTL=right / LTR=left */}
+      <main className="flex-1 lg:ms-[210px] min-h-screen overflow-x-hidden">
+        {/* شريط الهاتف */}
         <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-navy sticky top-0 z-30 shadow-md">
           <button
             onClick={() => setOpen(true)}
             className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center"
-            aria-label="فتح القائمة"
+            aria-label={t("nav.appDesc")}
           >
             <Menu size={20} className="text-white" />
           </button>

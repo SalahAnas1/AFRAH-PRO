@@ -31,6 +31,7 @@ const STATUS_ICON: Record<BookingStatus, React.ReactNode> = {
 };
 
 export default function BookingsPage() {
+  const { t } = useLanguage();
   const [bookings, setBookings]   = useState<Booking[]>([]);
   const [totals, setTotals]       = useState({ all: 0, draft: 0, confirmed: 0, completed: 0, cancelled: 0 });
   const [search, setSearch]       = useState("");
@@ -85,7 +86,7 @@ export default function BookingsPage() {
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-        {([["all", "الكل"], ["draft", "مسودة"], ["confirmed", "مؤكد"], ["completed", "مكتمل"], ["cancelled", "ملغي"]] as const).map(([key, label]) => (
+        {([["all", t("bookings.statuses.all")], ["draft", "مسودة"], ["confirmed", "مؤكد"], ["completed", "مكتمل"], ["cancelled", "ملغي"]] as const).map(([key, label]) => (
           <button
             key={key}
             onClick={() => setStatus(key === "all" ? "" : key)}
@@ -107,7 +108,7 @@ export default function BookingsPage() {
           <Search size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
-            placeholder="ابحث باسم العميل أو الهاتف..."
+            placeholder={t("bookings.searchPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pr-9 pl-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-rose-400"

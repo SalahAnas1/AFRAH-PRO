@@ -6,8 +6,7 @@ import { useEffect, useState } from "react";
 import { authApi } from "@/lib/api";
 import {
   LayoutDashboard, CalendarDays, Package, Sparkles,
-  Users, Warehouse, FileText,
-  BarChart3, Settings, LogOut, Crown, X,
+  Users, Warehouse, FileText, BarChart3, Settings, LogOut, Crown, X,
 } from "lucide-react";
 import clsx from "clsx";
 import DarkModeToggle from "@/components/DarkModeToggle";
@@ -20,9 +19,9 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ open = false, onClose }: SidebarProps) {
-  const pathname  = usePathname();
-  const router    = useRouter();
-  const { t }     = useLanguage();
+  const pathname       = usePathname();
+  const router         = useRouter();
+  const { t, dir }     = useLanguage();
   const [userName, setUserName] = useState("");
 
   const navItems = [
@@ -59,19 +58,23 @@ export default function Sidebar({ open = false, onClose }: SidebarProps) {
     return () => window.removeEventListener("user_updated", readName);
   }, []);
 
+  // تحريك الـ Sidebar: RTL→ يمين / LTR→ يسار
+  const hiddenTranslate = dir === "rtl" ? "translate-x-full" : "-translate-x-full";
+
   return (
     <aside
       className={clsx(
-        "fixed right-0 top-0 h-screen w-[210px] bg-navy flex flex-col z-50 shadow-xl",
+        // start-0 = inset-inline-start: 0 → يمين في RTL / يسار في LTR
+        "fixed start-0 top-0 h-screen w-[210px] bg-navy flex flex-col z-50 shadow-xl",
         "transition-transform duration-300 ease-in-out",
         "lg:translate-x-0",
-        open ? "translate-x-0" : "translate-x-full"
+        open ? "translate-x-0" : hiddenTranslate
       )}
     >
-      {/* زر الإغلاق — موبايل فقط */}
+      {/* زر الإغلاق — موبايل فقط — end-3 = دائماً الجانب الداخلي */}
       <button
         onClick={onClose}
-        className="lg:hidden absolute left-3 top-3 w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center"
+        className="lg:hidden absolute end-3 top-3 w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center"
         aria-label={t("nav.closeMenu")}
       >
         <X size={16} className="text-white" />
@@ -103,7 +106,7 @@ export default function Sidebar({ open = false, onClose }: SidebarProps) {
                   href={item.href}
                   onClick={onClose}
                   className={clsx(
-                    "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 group border-r-[3px]",
+                    "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 group border-s-[3px]",
                     isActive
                       ? "bg-gold/15 text-gold border-gold"
                       : "text-white/50 hover:text-white/80 hover:bg-white/5 border-transparent"
@@ -112,9 +115,7 @@ export default function Sidebar({ open = false, onClose }: SidebarProps) {
                   <Icon
                     size={17}
                     className={clsx(
-                      isActive
-                        ? "text-gold"
-                        : "text-white/35 group-hover:text-white/60"
+                      isActive ? "text-gold" : "text-white/35 group-hover:text-white/60"
                     )}
                   />
                   <span className="text-sm font-medium">{t(item.key)}</span>
@@ -125,7 +126,6 @@ export default function Sidebar({ open = false, onClose }: SidebarProps) {
         </ul>
       </nav>
 
-      {/* الإعلان النشط */}
       <SidebarAdvertisement />
 
       {/* معلومات المستخدم */}
@@ -147,7 +147,6 @@ export default function Sidebar({ open = false, onClose }: SidebarProps) {
           <span>{t("nav.logout")}</span>
         </button>
       </div>
-
     </aside>
   );
 }

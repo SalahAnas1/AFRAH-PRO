@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 
 import { useState, useEffect, useCallback } from "react";
 import Topbar from "@/components/layout/Topbar";
@@ -245,6 +246,7 @@ const STATUS_FILTERS = [
 interface Totals { all: number; paid: number; unpaid: number; }
 
 export default function InvoicesPage() {
+  const { t } = useLanguage();
   const [invoices, setInvoices]         = useState<PaginatedResponse<Invoice> | null>(null);
   const [totals, setTotals]             = useState<Totals>({ all: 0, paid: 0, unpaid: 0 });
   const [categories, setCategories]     = useState<InvoiceCategory[]>([]);
@@ -283,7 +285,7 @@ export default function InvoicesPage() {
   }, [searchInput]);
 
   const handleDelete = async (id: number) => {
-    if (!confirm("هل أنت متأكد من حذف هذه الفاتورة؟")) return;
+    if (!confirm(t("invoices.deleteConfirm"))) return;
     setDeletingId(id);
     try { await invoicesApi.delete(id); fetchInvoices(); }
     finally { setDeletingId(null); }
@@ -293,7 +295,7 @@ export default function InvoicesPage() {
 
   return (
     <div>
-      <Topbar title="الفواتير" breadcrumb={[{ label: "الرئيسية" }, { label: "الفواتير" }]} />
+      <Topbar title={t("invoices.title")} breadcrumb={[{ label: "الرئيسية" }, { label: t("invoices.title") }]} />
       <div className="p-3 sm:p-6">
 
         {/* بطاقات المجاميع */}
@@ -326,7 +328,7 @@ export default function InvoicesPage() {
             <div className="relative flex-1 min-w-[160px]">
               <Search size={15} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-text" />
               <input type="text" value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="ابحث بالمورد..." className="input-field pr-8" />
+                placeholder={t("invoices.searchPlaceholder")} className="input-field pr-8" />
             </div>
 
             {/* فلتر الشهر */}

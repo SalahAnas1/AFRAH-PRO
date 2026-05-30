@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { bookingsApi } from "@/lib/api";
@@ -23,6 +24,7 @@ const fmtDate = (d: string) =>
   new Date(d).toLocaleDateString("ar-DZ", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
 
 export default function BookingDetailPage() {
+  const { t } = useLanguage();
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [booking, setBooking] = useState<Booking | null>(null);
@@ -42,7 +44,7 @@ export default function BookingDetailPage() {
 
   const doAction = async (action: "confirm" | "complete" | "cancel") => {
     if (!booking) return;
-    const confirmMsg = action === "cancel" ? "هل أنت متأكد من إلغاء هذا الحجز؟" : null;
+    const confirmMsg = action === "cancel" ? t("bookings.detail.cancelConfirm") : null;
     if (confirmMsg && !window.confirm(confirmMsg)) return;
     setActionLoading(true);
     try {
@@ -57,7 +59,7 @@ export default function BookingDetailPage() {
 
   const handleDelete = async () => {
     if (!booking) return;
-    if (!window.confirm("هل أنت متأكد من حذف هذا الحجز نهائياً؟")) return;
+    if (!window.confirm(t("bookings.detail.deleteConfirm"))) return;
     await bookingsApi.delete(booking.id);
     router.push("/bookings");
   };
@@ -178,7 +180,7 @@ export default function BookingDetailPage() {
               <div key={item.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
                 <div className="flex items-center gap-2">
                   <span className={`text-xs px-1.5 py-0.5 rounded ${item.item_type === "service" ? "bg-blue-100 text-blue-700" : "bg-amber-100 text-amber-700"}`}>
-                    {item.item_type === "service" ? "خدمة" : "منتج"}
+                    {item.item_type === "service" ? t("bookings.detail.service") : t("bookings.detail.product")}
                   </span>
                   <span className="text-sm text-gray-700">{item.item_name}</span>
                   <span className="text-xs text-gray-400">× {item.quantity}</span>

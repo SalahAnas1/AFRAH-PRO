@@ -10,6 +10,7 @@ import {
   ImageIcon, Save, ChevronRight, ZoomIn,
 } from "lucide-react";
 import { ImagePreviewModal } from "@/components/ui/ImagePreviewModal";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface WizardDay { date: string }
 interface WizardItem {
@@ -86,9 +87,11 @@ function DayBookingCount({ date }: { date: string }) {
   );
 }
 
-const STEPS = ["المعلومات الأساسية","المنتجات و الخدمات","إضافة العمال والمصاريف","مراجعة وتأكيد الحجز"];
+const STEPS_KEYS = ["bookings.wizard.step1","bookings.wizard.step2","bookings.wizard.step3","bookings.wizard.step4"];
 
 function StepIndicator({ current }: { current: number }) {
+  const { t } = useLanguage();
+  const STEPS = STEPS_KEYS.map(k => t(k));
   return (
     <div className="card mb-5 py-4">
       <div className="flex items-center">
@@ -296,6 +299,7 @@ function ItemsTable({ items, onRemove, onQty, onPrice }: {
 }
 
 function Step2({ days, items, setItems }: { days: WizardDay[]; items: WizardItem[]; setItems: (v: WizardItem[]) => void }) {
+  const { t } = useLanguage();
   const [browsing, setBrowsing] = useState<"product" | "service">("product");
   const [svcCats, setSvcCats] = useState<ServiceCategory[]>([]);
   const [prdCats, setPrdCats] = useState<ProductCategory[]>([]);
@@ -503,7 +507,7 @@ function Step2({ days, items, setItems }: { days: WizardDay[]; items: WizardItem
           {selected.size > 0 && (
             <button onClick={addSelected} disabled={activeDay === "all"}
               className="btn-primary mt-3 w-full shrink-0 disabled:opacity-50 disabled:cursor-not-allowed text-sm">
-              {activeDay === "all" ? "اختر يوماً محدداً أولاً" : `إضافة المحدد (${selected.size})`}
+              {activeDay === "all" ? t("bookings.wizard.chooseDayFirst") : `إضافة المحدد (${selected.size})`}
             </button>
           )}
         </div>
@@ -997,6 +1001,7 @@ function Step4({ clientName, clientPhone, clientPhoneAlt, address, deposit, setD
 }
 
 function BookingWizard() {
+  const { t } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
   const editIdStr = searchParams.get("edit");
@@ -1107,14 +1112,14 @@ function BookingWizard() {
   if (loadingEdit) {
     return (
       <div>
-        <Topbar title="تعديل الحجز" breadcrumb={[{ label: "الرئيسية" }, { label: "الحجوزات" }, { label: "تعديل" }]} />
+        <Topbar title={t("bookings.wizard.step4")} breadcrumb={[{ label: "الرئيسية" }, { label: "الحجوزات" }, { label: "تعديل" }]} />
         <div className="flex items-center justify-center py-32 text-gray-400">جاري تحميل بيانات الحجز...</div>
       </div>
     );
   }
 
-  const title = editId ? "تعديل الحجز" : "حجز جديد";
-  const breadLabel = editId ? "تعديل" : "حجز جديد";
+  const title = editId ? t("bookings.wizard.step4") : t("bookings.newBooking");
+  const breadLabel = editId ? "تعديل" : t("bookings.newBooking");
 
   return (
     <div>
@@ -1136,7 +1141,7 @@ function BookingWizard() {
         {error && <p className="text-sm text-red-500 mb-4 text-center">{error}</p>}
         <div className="flex items-center justify-between">
           <button onClick={() => step === 0 ? router.push("/bookings") : setStep(step - 1)} className="btn-secondary px-5">
-            {step === 0 ? "إلغاء" : "السابق"}
+            {step === 0 ? t("common.cancel") : t("common.prev")}
           </button>
           <div className="flex gap-3">
             {!editId && (
@@ -1153,7 +1158,7 @@ function BookingWizard() {
             ) : (
               <button onClick={() => submit(!editId)} disabled={saving}
                 className="btn-primary px-8 text-base disabled:opacity-60">
-                <CheckCircle size={16} /> {saving ? "جاري الحفظ..." : editId ? "حفظ التعديلات" : "تأكيد الحجز"}
+                <CheckCircle size={16} /> {saving ? t("common.saving") : editId ? t("common.saveChanges") : t("bookings.wizard.confirmBooking")}
               </button>
             )}
           </div>

@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { reportsApi } from "@/lib/api";
 import {
@@ -151,16 +152,18 @@ function SummaryCard({ icon, label, value, sub, valueColor }: { icon: React.Reac
 
 // ─── Small panel list ─────────────────────────────────────────────────────────
 
-function MiniPanel({ title, icon, rows, emptyText }: {
+function MiniPanel({
+  title, icon, rows, emptyText }: {
   title: string; icon: React.ReactNode;
   rows: { label: string; value: string; sub?: string }[];
   emptyText?: string;
 }) {
+  const { t } = useLanguage();
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-4 flex flex-col h-full">
       <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">{icon}{title}</h3>
       {rows.length === 0 ? (
-        <p className="text-xs text-gray-400 text-center py-4">{emptyText ?? "لا توجد بيانات"}</p>
+        <p className="text-xs text-gray-400 text-center py-4">{emptyText ?? t("reports.noData")}</p>
       ) : (
         <div className="space-y-1 flex-1">
           {rows.map((r, i) => (
@@ -215,7 +218,8 @@ function TopItemsCard({ title, icon, items, fmt, fmtN }: {
 // ─── Tables ───────────────────────────────────────────────────────────────────
 
 function BookingsTable({ bookings, fmt }: { bookings: ReportBooking[]; fmt: (n:number)=>string }) {
-  if (!bookings.length) return <EmptyState text="لا توجد حجوزات لهذه الفترة" />;
+  const { t } = useLanguage();
+  if (!bookings.length) return <EmptyState text={t("reports.noBookings")} />;
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
@@ -247,7 +251,8 @@ function BookingsTable({ bookings, fmt }: { bookings: ReportBooking[]; fmt: (n:n
 }
 
 function ItemsTable({ items, label, fmt, fmtN }: { items: ReportItem[]; label: string; fmt:(n:number)=>string; fmtN:(n:number)=>string }) {
-  if (!items.length) return <EmptyState text="لا توجد بيانات" />;
+  const { t } = useLanguage();
+  if (!items.length) return <EmptyState text={t("reports.noData")} />;
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
@@ -293,6 +298,7 @@ type PeriodType = "daily" | "monthly" | "annual";
 type TabType    = "summary" | "bookings" | "products" | "services" | "workers";
 
 export default function ReportsPage() {
+  const { t } = useLanguage();
   const today = new Date();
   const todayStr = today.toISOString().split("T")[0];
 
@@ -399,7 +405,7 @@ export default function ReportsPage() {
           <div className="flex items-center gap-2 flex-wrap">
             <button onClick={() => setHideNumbers(v => !v)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-600 hover:border-gray-300 transition-colors">
               {hideNumbers ? <EyeOff size={14}/> : <Eye size={14}/>}
-              {hideNumbers ? "إظهار الأرقام" : "إخفاء الأرقام"}
+              {hideNumbers ? t("reports.showNumbers") : t("reports.hideNumbers")}
             </button>
             <button onClick={exportCSV} className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-600 hover:border-gray-300 transition-colors">
               <Download size={14}/>تصدير CSV
@@ -450,10 +456,10 @@ export default function ReportsPage() {
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">{Array.from({length:5}).map((_,i)=><div key={i} className="bg-gray-100 rounded-xl h-20 animate-pulse"/>)}</div>
       ) : (
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
-          <SummaryCard icon={<TrendingUp size={18}/>}   label="إجمالي الإيرادات"   value={fmt(summary?.revenue ?? 0)}        sub={`${fmtN(summary?.bookings_count ?? 0)} حجز`} valueColor="text-green-600" />
-          <SummaryCard icon={<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>} label="إجمالي المصاريف" value={fmt(summary?.total_expenses ?? 0)} sub="حجوزات + فواتير + عمال" valueColor="text-orange-600" />
-          <SummaryCard icon={<TrendingDown size={18}/>} label="صافي الربح"          value={fmt(summary?.net_profit ?? 0)}     valueColor={summary && summary.net_profit < 0 ? "text-red-600" : "text-green-700"} sub={`هامش الربح: %${hideNumbers ? "••" : profitMargin}`} />
-          <SummaryCard icon={<CalendarDays size={18}/>} label="عدد الحجوزات"        value={fmtN(summary?.bookings_count ?? 0)} sub={dateFrom === dateTo ? dateFrom : `${dateFrom} → ${dateTo}`} />
+          <SummaryCard icon={<TrendingUp size={18}/>}   label={t("reports.cards.totalRevenue")}   value={fmt(summary?.revenue ?? 0)}        sub={`${fmtN(summary?.bookings_count ?? 0)} حجز`} valueColor="text-green-600" />
+          <SummaryCard icon={<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>} label={t("reports.cards.totalExpenses")} value={fmt(summary?.total_expenses ?? 0)} sub="حجوزات + فواتير + عمال" valueColor="text-orange-600" />
+          <SummaryCard icon={<TrendingDown size={18}/>} label={t("reports.cards.netProfit")}          value={fmt(summary?.net_profit ?? 0)}     valueColor={summary && summary.net_profit < 0 ? "text-red-600" : "text-green-700"} sub={`هامش الربح: %${hideNumbers ? "••" : profitMargin}`} />
+          <SummaryCard icon={<CalendarDays size={18}/>} label={t("reports.cards.bookingCount")}        value={fmtN(summary?.bookings_count ?? 0)} sub={dateFrom === dateTo ? dateFrom : `${dateFrom} → ${dateTo}`} />
           <SummaryCard icon={<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>} label="متوسط ربح الحجز" value={fmt(avgProfit)} sub="صافي الربح ÷ عدد الحجوزات" />
         </div>
       )}
@@ -461,7 +467,7 @@ export default function ReportsPage() {
       {/* Tabs */}
       <div className="bg-white rounded-2xl border border-gray-200">
         <div className="flex border-b border-gray-100 overflow-x-auto print:hidden">
-          {([["summary","ملخص مالي"],["bookings","الحجوزات"],["products","المنتجات"],["services","الخدمات"],["workers","العمال"]] as [TabType, string][]).map(([key, label]) => (
+          {([["summary", t("reports.tabs.financial")],["bookings","الحجوزات"],["products","المنتجات"],["services","الخدمات"],["workers","العمال"]] as [TabType, string][]).map(([key, label]) => (
             <button key={key} onClick={() => setActiveTab(key)}
               className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === key ? "border-rose-500 text-rose-600" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
               {label}
@@ -522,9 +528,9 @@ export default function ReportsPage() {
                     <div className="bg-white rounded-xl border border-gray-200 p-4 flex flex-col gap-3">
                       <h3 className="text-sm font-semibold text-gray-700">تفاصيل الربحية</h3>
                       {[
-                        { label: "إجمالي الإيرادات", value: fmt(summary?.revenue ?? 0),       color: "text-green-600" },
-                        { label: "إجمالي المصاريف",  value: fmt(summary?.total_expenses ?? 0), color: "text-orange-500" },
-                        { label: "صافي الربح",        value: fmt(summary?.net_profit ?? 0),     color: summary && summary.net_profit < 0 ? "text-red-600" : "text-green-700" },
+                        { label: t("reports.cards.totalRevenue"), value: fmt(summary?.revenue ?? 0),       color: "text-green-600" },
+                        { label: t("reports.cards.totalExpenses"),  value: fmt(summary?.total_expenses ?? 0), color: "text-orange-500" },
+                        { label: t("reports.cards.netProfit"),        value: fmt(summary?.net_profit ?? 0),     color: summary && summary.net_profit < 0 ? "text-red-600" : "text-green-700" },
                       ].map((row, i) => (
                         <div key={i} className="flex items-center justify-between border-b border-gray-50 pb-2 last:border-0 last:pb-0">
                           <span className="text-xs text-gray-500">{row.label}</span>
@@ -565,7 +571,7 @@ export default function ReportsPage() {
                       icon={<Users size={14} className="text-blue-500"/>}
                       rows={[
                         { label: "إجمالي التكلفة",   value: fmt(summary?.worker_costs ?? 0) },
-                        { label: "عدد الحجوزات",     value: fmtN(summary?.bookings_count ?? 0) + " حجز" },
+                        { label: t("reports.cards.bookingCount"),     value: fmtN(summary?.bookings_count ?? 0) + " حجز" },
                         { label: "متوسط تكلفة حجز",  value: fmt(summary && summary.bookings_count > 0 ? Math.round(summary.worker_costs / summary.bookings_count) : 0) },
                       ]}
                     />
@@ -650,7 +656,7 @@ export default function ReportsPage() {
           {/* ── Workers Tab ── */}
           {activeTab === "workers" && (
             tabLoading ? <LoadingRows /> :
-            workers.length === 0 ? <EmptyState text="لا يوجد عمال لهذه الفترة" /> : (
+            workers.length === 0 ? <EmptyState text={t("reports.noWorkers")} /> : (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead><tr className="text-xs text-gray-400 border-b bg-gray-50/50">

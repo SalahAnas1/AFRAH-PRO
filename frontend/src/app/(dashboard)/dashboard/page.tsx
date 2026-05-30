@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 import { useEffect, useState, useCallback } from "react";
 import { dashboardApi } from "@/lib/api";
 import NotificationBell from "@/components/NotificationBell";
@@ -121,6 +122,7 @@ function Avatar({ name, size = "sm" }: { name: string; size?: "sm" | "md" }) {
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function DashboardPage() {
+  const { t } = useLanguage();
   const todayDate = new Date();
   const todayStr  = todayDate.toISOString().split("T")[0];
 
@@ -179,7 +181,7 @@ export default function DashboardPage() {
           <button onClick={() => setHideNums(v => !v)}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
             {hideNums ? <EyeOff size={14}/> : <Eye size={14}/>}
-            {hideNums ? "إظهار الأرقام" : "إخفاء الأرقام"}
+            {hideNums ? t("dashboard.showNumbers") : t("dashboard.hideNumbers")}
           </button>
           <DarkModeToggle compact={true} onDark={false} />
           <NotificationBell />
@@ -212,7 +214,7 @@ export default function DashboardPage() {
             <div className="min-w-0">
               <p className="text-[11px] text-gray-400 font-medium">حالة المخزون</p>
               <p className={`text-xl font-bold mt-0.5 ${invColor}`}>{loading ? "—" : invStatus}</p>
-              <p className="text-[10px] text-gray-400">{loading ? "" : data?.low_stock_count ? "يوجد نقص" : "كل شيء متوفر"}</p>
+              <p className="text-[10px] text-gray-400">{loading ? "" : data?.low_stock_count ? t("dashboard.lowStock") : t("dashboard.allAvailable")}</p>
             </div>
           </div>
 
