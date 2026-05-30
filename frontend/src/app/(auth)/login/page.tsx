@@ -3,10 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Lock, Mail, Loader2, Crown } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 import { authApi } from "@/lib/api";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +32,7 @@ export default function LoginPage() {
       }
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { message?: string } } };
-      setError(axiosErr?.response?.data?.message ?? "البريد الإلكتروني أو كلمة المرور غير صحيحة");
+      setError(axiosErr?.response?.data?.message ?? t("login.invalidCredentials"));
     } finally {
       setLoading(false);
     }

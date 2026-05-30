@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 import { useEffect, useState, useCallback } from "react";
 import { bookingsApi } from "@/lib/api";
 import { Booking, BookingStatus } from "@/types";

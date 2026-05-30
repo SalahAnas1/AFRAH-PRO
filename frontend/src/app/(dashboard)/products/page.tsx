@@ -9,6 +9,7 @@ import {
   X, Loader2, ChevronLeft, ChevronRight, Package, Check, Upload,
 } from "lucide-react";
 import { ImagePreviewModal } from "@/components/ui/ImagePreviewModal";
+import { useLanguage } from "@/context/LanguageContext";
 
 // ── وحدات القياس ─────────────────────────────────────────────────────────
 const STORAGE_URL = (process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') ?? 'http://localhost:8000') + '/storage';
@@ -369,6 +370,7 @@ const STOCK_FILTERS = [
 ];
 
 export default function ProductsPage() {
+  const { t } = useLanguage();
   const [products, setProducts] = useState<PaginatedResponse<Product> | null>(null);
   const [categories, setCategories] = useState<ProductCategory[]>([]);
   const [loading, setLoading] = useState(true);
@@ -412,7 +414,7 @@ export default function ProductsPage() {
   }, [searchInput]);
 
   const handleDelete = async (id: number) => {
-    if (!confirm("هل أنت متأكد من حذف هذا المنتج؟")) return;
+    if (!confirm(t("products.modal.deleteConfirm"))) return;
     setDeletingId(id);
     try {
       await productsApi.delete(id);
@@ -443,7 +445,7 @@ export default function ProductsPage() {
             <div className="relative flex-1 min-w-[200px]">
               <Search size={15} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-text" />
               <input type="text" value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="ابحث عن منتج..." className="input-field pr-8" />
+                placeholder={t("products.searchPlaceholder")} className="input-field pr-8" />
             </div>
 
             <select

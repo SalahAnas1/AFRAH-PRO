@@ -12,18 +12,7 @@ import {
 import clsx from "clsx";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import SidebarAdvertisement from "@/components/layout/SidebarAdvertisement";
-
-const navItems = [
-  { label: "لوحة التحكم", href: "/dashboard",  icon: LayoutDashboard },
-  { label: "الحجوزات",    href: "/bookings",   icon: CalendarDays    },
-  { label: "المنتجات",    href: "/products",   icon: Package         },
-  { label: "الخدمات",     href: "/services",   icon: Sparkles        },
-  { label: "العمال",      href: "/workers",    icon: Users           },
-  { label: "المخزن",      href: "/inventory",  icon: Warehouse       },
-  { label: "الفواتير",    href: "/invoices",   icon: FileText        },
-  { label: "التقارير",    href: "/reports",    icon: BarChart3       },
-  { label: "الإعدادات",   href: "/settings",   icon: Settings        },
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 interface SidebarProps {
   open?: boolean;
@@ -31,9 +20,22 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ open = false, onClose }: SidebarProps) {
-  const pathname = usePathname();
-  const router   = useRouter();
-  const [userName, setUserName] = useState("مدير النظام");
+  const pathname  = usePathname();
+  const router    = useRouter();
+  const { t }     = useLanguage();
+  const [userName, setUserName] = useState("");
+
+  const navItems = [
+    { key: "nav.dashboard", href: "/dashboard",  icon: LayoutDashboard },
+    { key: "nav.bookings",  href: "/bookings",   icon: CalendarDays    },
+    { key: "nav.products",  href: "/products",   icon: Package         },
+    { key: "nav.services",  href: "/services",   icon: Sparkles        },
+    { key: "nav.workers",   href: "/workers",    icon: Users           },
+    { key: "nav.inventory", href: "/inventory",  icon: Warehouse       },
+    { key: "nav.invoices",  href: "/invoices",   icon: FileText        },
+    { key: "nav.reports",   href: "/reports",    icon: BarChart3       },
+    { key: "nav.settings",  href: "/settings",   icon: Settings        },
+  ];
 
   const handleLogout = async () => {
     try { await authApi.logout(); } catch {}
@@ -70,7 +72,7 @@ export default function Sidebar({ open = false, onClose }: SidebarProps) {
       <button
         onClick={onClose}
         className="lg:hidden absolute left-3 top-3 w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center"
-        aria-label="إغلاق القائمة"
+        aria-label={t("nav.closeMenu")}
       >
         <X size={16} className="text-white" />
       </button>
@@ -83,7 +85,7 @@ export default function Sidebar({ open = false, onClose }: SidebarProps) {
           </div>
           <div>
             <h1 className="text-white font-bold text-[15px]">AFRAH PRO</h1>
-            <p className="text-white/30 text-[11px]">إدارة حفلات ومناسبات</p>
+            <p className="text-white/30 text-[11px]">{t("nav.appDesc")}</p>
           </div>
         </div>
       </div>
@@ -115,7 +117,7 @@ export default function Sidebar({ open = false, onClose }: SidebarProps) {
                         : "text-white/35 group-hover:text-white/60"
                     )}
                   />
-                  <span className="text-sm font-medium">{item.label}</span>
+                  <span className="text-sm font-medium">{t(item.key)}</span>
                 </Link>
               </li>
             );
@@ -133,8 +135,8 @@ export default function Sidebar({ open = false, onClose }: SidebarProps) {
             <span className="text-navy text-xs font-bold">م</span>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-white text-sm font-semibold truncate">{userName}</p>
-            <p className="text-white/35 text-xs">مدير النظام</p>
+            <p className="text-white text-sm font-semibold truncate">{userName || t("nav.sysAdmin")}</p>
+            <p className="text-white/35 text-xs">{t("nav.sysAdmin")}</p>
           </div>
         </div>
         <div className="flex items-center justify-between mb-1">
@@ -142,7 +144,7 @@ export default function Sidebar({ open = false, onClose }: SidebarProps) {
         </div>
         <button onClick={handleLogout} className="flex items-center gap-2 text-white/35 hover:text-red-400 text-sm transition-colors w-full px-1 py-1 rounded-lg hover:bg-red-500/10">
           <LogOut size={15} />
-          <span>تسجيل الخروج</span>
+          <span>{t("nav.logout")}</span>
         </button>
       </div>
 

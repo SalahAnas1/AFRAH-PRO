@@ -9,6 +9,7 @@ import {
   X, Loader2, ChevronLeft, ChevronRight, ImageIcon, Check, Upload,
 } from "lucide-react";
 import { ImagePreviewModal } from "@/components/ui/ImagePreviewModal";
+import { useLanguage } from "@/context/LanguageContext";
 
 // ── ألوان الفئات ──────────────────────────────────────────────────────────
 const STORAGE_URL = (process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') ?? 'http://localhost:8000') + '/storage';
@@ -431,6 +432,7 @@ function ServiceModal({
 //  الصفحة الرئيسية
 // ════════════════════════════════════════════════════════════════════════════
 export default function ServicesPage() {
+  const { t } = useLanguage();
   const [services, setServices] = useState<PaginatedResponse<Service> | null>(null);
   const [categories, setCategories] = useState<ServiceCategory[]>([]);
   const [loading, setLoading] = useState(true);
@@ -472,7 +474,7 @@ export default function ServicesPage() {
   }, [searchInput]);
 
   const handleDelete = async (id: number) => {
-    if (!confirm("هل أنت متأكد من حذف هذه الخدمة؟")) return;
+    if (!confirm(t("services.modal.deleteConfirm"))) return;
     setDeletingId(id);
     try {
       await servicesApi.delete(id);
@@ -513,7 +515,7 @@ export default function ServicesPage() {
                 type="text"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="ابحث عن خدمة..."
+                placeholder={t("services.searchPlaceholder")}
                 className="input-field pr-8"
               />
             </div>
