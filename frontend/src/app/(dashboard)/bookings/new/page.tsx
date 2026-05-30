@@ -7,8 +7,9 @@ import Topbar from "@/components/layout/Topbar";
 import {
   Plus, Trash2, Phone, MapPin, Calendar, Package,
   Users, ReceiptText, CheckCircle, Search, Check,
-  ImageIcon, Save, ChevronRight,
+  ImageIcon, Save, ChevronRight, ZoomIn,
 } from "lucide-react";
+import { ImagePreviewModal } from "@/components/ui/ImagePreviewModal";
 
 interface WizardDay { date: string }
 interface WizardItem {
@@ -214,7 +215,9 @@ function ItemsTable({ items, onRemove, onQty, onPrice }: {
   onQty: (type: string, id: number, qty: number) => void;
   onPrice: (type: string, id: number, price: number) => void;
 }) {
+  const [previewItem, setPreviewItem] = useState<WizardItem | null>(null);
   return (
+    <>
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
@@ -234,7 +237,10 @@ function ItemsTable({ items, onRemove, onQty, onPrice }: {
             return (
               <tr key={idx} className="border-b border-border/50 hover:bg-gray-50/50">
                 <td className="p-2">
-                  <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden">
+                  <div
+                    className={`w-10 h-10 rounded-lg bg-gray-100 overflow-hidden transition-all ${src ? "cursor-zoom-in hover:ring-2 hover:ring-gold/50" : ""}`}
+                    onClick={() => src && setPreviewItem(it)}
+                  >
                     {src
                       ? <img src={src} alt={it.item_name} className="w-full h-full object-cover" />
                       : <div className="w-full h-full flex items-center justify-center text-gray-300"><ImageIcon size={14} /></div>}
@@ -275,6 +281,17 @@ function ItemsTable({ items, onRemove, onQty, onPrice }: {
         </tbody>
       </table>
     </div>
+
+    {previewItem && imgSrc(previewItem.item_image) && (
+      <ImagePreviewModal
+        isOpen
+        onClose={() => setPreviewItem(null)}
+        image={imgSrc(previewItem.item_image)!}
+        name={previewItem.item_name}
+        price={previewItem.unit_price}
+      />
+    )}
+    </>
   );
 }
 
@@ -288,6 +305,7 @@ function Step2({ days, items, setItems }: { days: WizardDay[]; items: WizardItem
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [activeDay, setActiveDay] = useState<number | "all">(days.length > 0 ? 0 : "all");
+  const [previewCard, setPreviewCard] = useState<{name:string;image:string;price:number;description?:string}|null>(null);
 
   useEffect(() => {
     servicesApi.categories().then((r: any) => setSvcCats(r.data));
@@ -348,9 +366,11 @@ function Step2({ days, items, setItems }: { days: WizardDay[]; items: WizardItem
   const cards = (browsing === "product" ? products : services).map(x => ({
     id: x.id, name: x.name, image: x.image, price: parseFloat(x.price),
     stock: browsing === "product" ? (x as Product).stock : null,
+    description: (x as any).description as string | null,
   }));
 
   return (
+    <>
     <div className="flex gap-4 min-h-[620px]">
       <div className="flex-1 min-w-0">
         <div className="card h-full flex flex-col">
@@ -456,6 +476,15 @@ function Step2({ days, items, setItems }: { days: WizardDay[]; items: WizardItem
                           </div>
                         </div>
                       )}
+                    {src && (
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); setPreviewCard({ name: c.name, image: src, price: c.price, description: c.description ?? undefined }); }}
+                          className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors"
+                        >
+                          <ZoomIn size={11} />
+                        </button>
+                      )}
                     </div>
                     <div className="p-1.5">
                       <p className="text-[11px] font-bold text-dark truncate">{c.name}</p>
@@ -480,6 +509,18 @@ function Step2({ days, items, setItems }: { days: WizardDay[]; items: WizardItem
         </div>
       </div>
     </div>
+
+    {previewCard && (
+      <ImagePreviewModal
+        isOpen
+        onClose={() => setPreviewCard(null)}
+        image={previewCard.image}
+        name={previewCard.name}
+        price={previewCard.price}
+        description={previewCard.description}
+      />
+    )}
+    </>
   );
 }
 
@@ -732,6 +773,7 @@ function Step4({ clientName, clientPhone, clientPhoneAlt, address, deposit, setD
   days: WizardDay[]; items: WizardItem[]; workers: WizardWorker[]; expenses: WizardExpense[];
 }) {
   const [activeTab, setActiveTab] = useState<number | "all">("all");
+  const [previewStep4, setPreviewStep4] = useState<{image:string;name:string;price:number}|null>(null);
   const revenue  = items.reduce((s, it) => s + it.quantity * it.unit_price, 0);
   const pRevenue = items.filter(it => it.item_type === "product").reduce((s, it) => s + it.quantity * it.unit_price, 0);
   const sRevenue = items.filter(it => it.item_type === "service").reduce((s, it) => s + it.quantity * it.unit_price, 0);
@@ -742,6 +784,7 @@ function Step4({ clientName, clientPhone, clientPhoneAlt, address, deposit, setD
   const dayItems = (dayIdx: number) => items.filter(it => it.day_index === dayIdx);
 
   return (
+    <>
     <div className="space-y-4">
       <div className="card">
         <h3 className="font-bold text-dark mb-1">مراجعة تفاصيل الحجز</h3>
@@ -819,7 +862,10 @@ function Step4({ clientName, clientPhone, clientPhoneAlt, address, deposit, setD
                     {dItems.map((it, idx) => (
                       <tr key={idx} className="border-b border-border/50">
                         <td className="p-2">
-                          <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden">
+                          <div
+                            className={`w-10 h-10 rounded-lg bg-gray-100 overflow-hidden transition-all ${imgSrc(it.item_image) ? "cursor-zoom-in hover:ring-2 hover:ring-gold/50" : ""}`}
+                            onClick={() => { const s = imgSrc(it.item_image); if (s) setPreviewStep4({ image: s, name: it.item_name, price: it.unit_price }); }}
+                          >
                             {imgSrc(it.item_image)
                               ? <img src={imgSrc(it.item_image)!} alt={it.item_name} className="w-full h-full object-cover" />
                               : <div className="w-full h-full flex items-center justify-center text-gray-300"><ImageIcon size={14} /></div>}
@@ -936,6 +982,17 @@ function Step4({ clientName, clientPhone, clientPhoneAlt, address, deposit, setD
         </div>
       </div>
     </div>
+
+    {previewStep4 && (
+      <ImagePreviewModal
+        isOpen
+        onClose={() => setPreviewStep4(null)}
+        image={previewStep4.image}
+        name={previewStep4.name}
+        price={previewStep4.price}
+      />
+    )}
+    </>
   );
 }
 

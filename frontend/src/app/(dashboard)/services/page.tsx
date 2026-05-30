@@ -8,6 +8,7 @@ import {
   Plus, Search, Filter, Pencil, Trash2,
   X, Loader2, ChevronLeft, ChevronRight, ImageIcon, Check, Upload,
 } from "lucide-react";
+import { ImagePreviewModal } from "@/components/ui/ImagePreviewModal";
 
 // ── ألوان الفئات ──────────────────────────────────────────────────────────
 const STORAGE_URL = (process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') ?? 'http://localhost:8000') + '/storage';
@@ -440,6 +441,7 @@ export default function ServicesPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingService, setEditingService] = useState<Service | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [previewService, setPreviewService] = useState<Service | null>(null);
 
   const fetchServices = useCallback(async () => {
     setLoading(true);
@@ -571,7 +573,10 @@ export default function ServicesPage() {
                   >
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-lg bg-cream border border-border flex items-center justify-center flex-shrink-0 overflow-hidden">
+                        <div
+                          className={`w-12 h-12 rounded-lg bg-cream border border-border flex items-center justify-center flex-shrink-0 overflow-hidden transition-all ${service.image ? "cursor-zoom-in hover:ring-2 hover:ring-gold/50" : ""}`}
+                          onClick={() => service.image && setPreviewService(service)}
+                        >
                           {service.image ? (
                             <img
                               src={`${STORAGE_URL}/${service.image}`}
@@ -663,6 +668,17 @@ export default function ServicesPage() {
           </div>
         )}
       </div>
+
+      {previewService?.image && (
+        <ImagePreviewModal
+          isOpen
+          onClose={() => setPreviewService(null)}
+          image={`${STORAGE_URL}/${previewService.image}`}
+          name={previewService.name}
+          price={previewService.price}
+          description={previewService.description ?? undefined}
+        />
+      )}
 
       <ServiceModal
         isOpen={modalOpen}

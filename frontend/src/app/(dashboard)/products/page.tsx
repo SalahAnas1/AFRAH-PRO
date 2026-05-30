@@ -8,6 +8,7 @@ import {
   Plus, Search, Pencil, Trash2,
   X, Loader2, ChevronLeft, ChevronRight, Package, Check, Upload,
 } from "lucide-react";
+import { ImagePreviewModal } from "@/components/ui/ImagePreviewModal";
 
 // ── وحدات القياس ─────────────────────────────────────────────────────────
 const STORAGE_URL = (process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') ?? 'http://localhost:8000') + '/storage';
@@ -379,6 +380,7 @@ export default function ProductsPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [previewProduct, setPreviewProduct] = useState<Product | null>(null);
 
   const fetchProducts = useCallback(async () => {
     setLoading(true);
@@ -507,7 +509,10 @@ export default function ProductsPage() {
                   <tr key={product.id} className="border-b border-border last:border-0 hover:bg-cream/50 transition-colors">
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-lg bg-cream border border-border flex items-center justify-center flex-shrink-0 overflow-hidden">
+                        <div
+                          className={`w-12 h-12 rounded-lg bg-cream border border-border flex items-center justify-center flex-shrink-0 overflow-hidden transition-all ${product.image ? "cursor-zoom-in hover:ring-2 hover:ring-gold/50" : ""}`}
+                          onClick={() => product.image && setPreviewProduct(product)}
+                        >
                           {product.image
                             ? <img src={`${STORAGE_URL}/${product.image}`} alt={product.name} className="w-full h-full object-cover" />
                             : <Package size={20} className="text-gray-text" />}
@@ -588,6 +593,17 @@ export default function ProductsPage() {
           </div>
         )}
       </div>
+
+      {previewProduct?.image && (
+        <ImagePreviewModal
+          isOpen
+          onClose={() => setPreviewProduct(null)}
+          image={`${STORAGE_URL}/${previewProduct.image}`}
+          name={previewProduct.name}
+          price={previewProduct.price}
+          description={previewProduct.description ?? undefined}
+        />
+      )}
 
       <ProductModal
         isOpen={modalOpen}
