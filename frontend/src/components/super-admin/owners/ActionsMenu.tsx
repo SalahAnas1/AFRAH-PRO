@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
@@ -21,6 +22,7 @@ export default function ActionsMenu({
   owner, anchorRect, onView, onEdit, onToggleStatus,
   onResetPass, onLoginAs, onDelete, onClose,
 }: Props) {
+  const { t } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -61,24 +63,24 @@ export default function ActionsMenu({
       style={{ position: "absolute", top, left, width: MENU_WIDTH, zIndex: 9999 }}
       className="bg-white rounded-xl shadow-xl border border-border py-1"
     >
-      {row(onView, <Eye    size={15} className="text-gray-text" />, "عرض التفاصيل")}
-      {row(onEdit, <Pencil size={15} className="text-gray-text" />, "تعديل")}
+      {row(onView, <Eye    size={15} className="text-gray-text" />, t("superAdmin.owners.actions.viewDetails"))}
+      {row(onEdit, <Pencil size={15} className="text-gray-text" />, t("common.edit"))}
 
       <div className="border-t border-border my-1" />
 
       {isActive
-        ? row(onToggleStatus, <Power size={15} />, "تعطيل الحساب", "text-orange-600 hover:bg-orange-50")
-        : row(onToggleStatus, <Power size={15} />, "تفعيل الحساب", "text-green-600 hover:bg-green-50")
+        ? row(onToggleStatus, <Power size={15} />, t("superAdmin.owners.actions.disable"), "text-orange-600 hover:bg-orange-50")
+        : row(onToggleStatus, <Power size={15} />, t("superAdmin.owners.actions.enable"), "text-green-600 hover:bg-green-50")
       }
-      {row(onResetPass, <KeyRound size={15} className="text-gray-text" />, "إعادة تعيين كلمة المرور")}
+      {row(onResetPass, <KeyRound size={15} className="text-gray-text" />, t("superAdmin.owners.actions.resetPassword"))}
 
       <div className="border-t border-border my-1" />
 
-      {row(onLoginAs, <LogIn  size={15} />, "الدخول كمستخدم", "text-blue-600 hover:bg-blue-50")}
+      {row(onLoginAs, <LogIn  size={15} />, t("superAdmin.owners.actions.loginAs"), "text-blue-600 hover:bg-blue-50")}
 
       <div className="border-t border-border my-1" />
 
-      {row(onDelete, <Trash2 size={15} />, "حذف", "text-red-500 hover:bg-red-50")}
+      {row(onDelete, <Trash2 size={15} />, t("common.delete"), "text-red-500 hover:bg-red-50")}
     </div>,
     document.body
   );

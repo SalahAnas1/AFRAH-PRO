@@ -13,29 +13,21 @@ interface CalendarDay  { date: string; booking_count: number; }
 interface InvProduct   { id: number; name: string; unit: string; stock: number; reserved: number; available: number; category: string | null; }
 interface Movement     { id: number; product_id: number; type: "in"|"out"|"return"|"adjustment"; quantity: number; reason: string|null; notes: string|null; created_at: string; product?: { id: number; name: string; unit: string }; }
 
-const MOVE_TYPES = {
-  in:         { label: "دخول مخزن",  color: "bg-green-100 text-green-700", icon: ArrowDownCircle    },
-  out:        { label: "خروج مخزن",  color: "bg-red-100 text-red-700",    icon: ArrowUpCircle      },
-  return:     { label: "إرجاع",      color: "bg-blue-100 text-blue-700",  icon: RotateCcw          },
-  adjustment: { label: "تعديل",      color: "bg-gray-100 text-gray-700",  icon: SlidersHorizontal  },
-};
+const MOVE_TYPE_COLORS: Record<string, string> = { in: "bg-green-100 text-green-700", out: "bg-red-100 text-red-700", return: "bg-blue-100 text-blue-700", adjustment: "bg-gray-100 text-gray-700" };
+const MOVE_TYPE_ICONS: Record<string, React.ElementType> = { in: ArrowDownCircle, out: ArrowUpCircle, return: RotateCcw, adjustment: SlidersHorizontal };
 
-const REASONS: Record<string, string> = {
-  broken: "مكسور", damaged: "تالف", lost: "مفقود",
-  sold: "مباع", consumed: "مستهلك", other: "أخرى",
-};
+const REASONS_KEYS: Record<string, string> = { broken: "inventory.reasons.broken", damaged: "inventory.reasons.damaged", lost: "inventory.reasons.lost", sold: "inventory.reasons.sold", consumed: "inventory.reasons.consumed", other: "inventory.reasons.other" };
 
-const DAYS_AR    = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
-const MONTHS_AR  = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+// calendar via useLanguage context
 
 // ─── Add Movement Modal ───────────────────────────────────────────────────────
 
-function AddMovementModal({ products, onClose, onSuccess }: { products: Product[]; onClose: () => void; onSuccess: () => void; }) { const { t } = useLanguage(); return null; }
-function _AddMovementModal({ products, onClose, onSuccess }: {
+function AddMovementModal({ products, onClose, onSuccess }: {
   products: Product[];
   onClose: () => void;
   onSuccess: () => void;
 }) {
+  const { t, calendar } = useLanguage();
   const [productId, setProductId] = useState<number|"">("");
   const [type,      setType]      = useState<"in"|"out"|"return"|"adjustment">("in");
   const [quantity,  setQuantity]  = useState(1);
@@ -45,8 +37,8 @@ function _AddMovementModal({ products, onClose, onSuccess }: {
   const [error,     setError]     = useState("");
 
   const submit = async () => {
-    if (!productId) { setError("اختر منتجاً"); return; }
-    if (!quantity || quantity === 0) { setError("الكمية مطلوبة"); return; }
+    if (!productId) { setError(t("inventory.movementModal.errorChooseProduct")); return; }
+    if (!quantity || quantity === 0) { setError(t("inventory.movementModal.errorQuantity")); return; }
     setSaving(true); setError("");
     try {
       await inventoryApi.addMovement({ product_id: productId, type, quantity, reason: reason || null, notes: notes || null });
@@ -88,8 +80,8 @@ function _AddMovementModal({ products, onClose, onSuccess }: {
           <div>
             <label className="text-xs font-medium text-gray-500 block mb-2">نوع الحركة</label>
             <div className="grid grid-cols-4 gap-2">
-              {(Object.entries(MOVE_TYPES) as [keyof typeof MOVE_TYPES, typeof MOVE_TYPES[keyof typeof MOVE_TYPES]][]).map(([key, val]) => {
-                const Icon = val.icon;
+              {(["in","out","return","adjustment"] as const).map((key) => {
+                const MoveIcon = MOVE_TYPE_ICONS[key];
                 return (
                   <button
                     key={key}
@@ -98,8 +90,8 @@ function _AddMovementModal({ products, onClose, onSuccess }: {
                       type === key ? "border-rose-500 bg-rose-50 text-rose-700" : "border-gray-200 text-gray-500 hover:border-gray-300"
                     }`}
                   >
-                    <Icon size={15} />
-                    {val.label}
+                    <MoveIcon size={15} />
+                    {t(`inventory.moveTypes.${key}`)}
                   </button>
                 );
               })}
@@ -130,7 +122,7 @@ function _AddMovementModal({ products, onClose, onSuccess }: {
                 className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-400"
               >
                 <option value="">اختر سبباً...</option>
-                {Object.entries(REASONS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+                {(["broken","damaged","lost","sold","consumed","other"] as const).map(k => <option key={k} value={k}>{t(`inventory.reasons.${k}`)}</option>)}
               </select>
             </div>
           )}
@@ -143,7 +135,7 @@ function _AddMovementModal({ products, onClose, onSuccess }: {
               onChange={e => setNotes(e.target.value)}
               rows={2}
               className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-400 resize-none"
-              placeholder="ملاحظات إضافية..."
+              placeholder={t("inventory.movementModal.notesPlaceholder")}
             />
           </div>
         </div>
@@ -166,6 +158,7 @@ function _AddMovementModal({ products, onClose, onSuccess }: {
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function InventoryPage() {
+  const { t, calendar } = useLanguage();
   const today = new Date();
   const [year,         setYear]         = useState(today.getFullYear());
   const [month,        setMonth]        = useState(today.getMonth() + 1);
@@ -282,7 +275,7 @@ export default function InventoryPage() {
             <button onClick={prevMonth} className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
               <ChevronRight size={18} className="text-gray-600" />
             </button>
-            <span className="font-semibold text-gray-800">{MONTHS_AR[month - 1]} {year}</span>
+            <span className="font-semibold text-gray-800">{calendar.months[month - 1]} {year}</span>
             <button onClick={nextMonth} className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
               <ChevronLeft size={18} className="text-gray-600" />
             </button>
@@ -290,7 +283,7 @@ export default function InventoryPage() {
 
           {/* Day headers */}
           <div className="grid grid-cols-7 mb-1">
-            {DAYS_AR.map(d => (
+            {calendar.days.map(d => (
               <div key={d} className="text-center text-[10px] font-medium text-gray-400 py-1">{d.slice(0, 3)}</div>
             ))}
           </div>
@@ -349,7 +342,7 @@ export default function InventoryPage() {
             <>
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold text-gray-800 text-sm">
-                  {new Date(selectedDate + "T12:00:00").toLocaleDateString("ar-DZ", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
+                  {new Date(selectedDate + "T12:00:00").toLocaleDateString(calendar.locale, { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
                 </h3>
                 <button onClick={() => setSelectedDate("")} className="text-gray-400 hover:text-gray-600 transition-colors">
                   <X size={16} />
@@ -442,24 +435,24 @@ export default function InventoryPage() {
                   </thead>
                   <tbody>
                     {movements.map(m => {
-                      const mt   = MOVE_TYPES[m.type];
-                      const Icon = mt.icon;
-                      const sign = m.type === "out" ? "−" : "+";
+                      const mtColor = MOVE_TYPE_COLORS[m.type] ?? "bg-gray-100 text-gray-700";
+                      const MtIcon  = MOVE_TYPE_ICONS[m.type] ?? ArrowDownCircle;
+                      const sign    = m.type === "out" ? "−" : "+";
                       return (
                         <tr key={m.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
                           <td className="px-4 py-3 font-medium text-gray-800">{m.product?.name ?? `#${m.product_id}`}</td>
                           <td className="px-4 py-3">
-                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${mt.color}`}>
-                              <Icon size={11} />
-                              {mt.label}
+                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${mtColor}`}>
+                              <MtIcon size={11} />
+                              {t(`inventory.moveTypes.${m.type}`)}
                             </span>
                           </td>
                           <td className={`px-4 py-3 font-bold text-sm ${m.type === "out" ? "text-red-600" : "text-green-600"}`}>
                             {sign}{Math.abs(m.quantity)} {m.product?.unit ?? ""}
                           </td>
-                          <td className="px-4 py-3 text-gray-500 text-xs">{m.reason ? REASONS[m.reason] ?? m.reason : "—"}</td>
+                          <td className="px-4 py-3 text-gray-500 text-xs">{m.reason ? t("inventory.reasons." + m.reason) ?? m.reason : "—"}</td>
                           <td className="px-4 py-3 text-gray-400 text-xs">
-                            {new Date(m.created_at).toLocaleDateString("ar-DZ", { year: "numeric", month: "short", day: "numeric" })}
+                            {new Date(m.created_at).toLocaleDateString(calendar.locale, { year: "numeric", month: "short", day: "numeric" })}
                           </td>
                         </tr>
                       );

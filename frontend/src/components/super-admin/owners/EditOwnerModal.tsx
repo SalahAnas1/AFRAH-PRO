@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 
 import { useState } from "react";
 import { X, Loader2 } from "lucide-react";
@@ -10,7 +11,9 @@ interface Props {
   onCancel:  () => void;
 }
 
-export default function EditOwnerModal({ owner, onSave, onCancel }: Props) {
+export default function EditOwnerModal({
+  owner, onSave, onCancel }: Props) {
+  const { t } = useLanguage();
   const [form, setForm]     = useState<EditOwnerForm>({
     name:  owner.name,
     email: owner.email,
@@ -29,6 +32,7 @@ export default function EditOwnerModal({ owner, onSave, onCancel }: Props) {
     try {
       await onSave(form);
     } catch (err: unknown) {
+  const { t } = useLanguage();
       const axiosErr = err as { response?: { data?: { message?: string; errors?: Record<string, string[]> } } };
       const errors = axiosErr?.response?.data?.errors;
       if (errors) {
@@ -66,7 +70,7 @@ export default function EditOwnerModal({ owner, onSave, onCancel }: Props) {
           <div>
             <label className={labelCls}>الاسم الكامل *</label>
             <input required value={form.name} onChange={(e) => set("name", e.target.value)}
-              placeholder="الاسم الكامل" className={inputCls} />
+              placeholder={t("superAdmin.owners.editModal.namePlaceholder")} className={inputCls} />
           </div>
           <div>
             <label className={labelCls}>البريد الإلكتروني *</label>
@@ -87,7 +91,7 @@ export default function EditOwnerModal({ owner, onSave, onCancel }: Props) {
             <button type="submit" disabled={loading}
               className="flex-1 py-2.5 bg-gold text-navy rounded-xl text-sm font-semibold hover:bg-gold/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-60">
               {loading && <Loader2 size={14} className="animate-spin" />}
-              {loading ? "جارِ الحفظ..." : "حفظ التعديلات"}
+              {loading ? t("") : t("")}
             </button>
           </div>
         </form>

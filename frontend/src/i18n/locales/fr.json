@@ -12,6 +12,7 @@
     "logout": "Déconnexion",
     "appDesc": "Gestion de salles de fêtes",
     "closeMenu": "Fermer le menu",
+    "openMenu": "Ouvrir le menu",
     "sysAdmin": "Administrateur"
   },
   "common": {
@@ -25,6 +26,7 @@
     "search": "Rechercher",
     "filter": "Filtrer",
     "resetFilters": "Réinitialiser",
+    "reset": "Réinitialiser",
     "loading": "Chargement...",
     "noData": "Aucune donnée",
     "confirm": "Confirmer",
@@ -46,23 +48,63 @@
     "status": "Statut",
     "soon": "Bientôt",
     "close": "Fermer",
+    "view": "Voir",
+    "viewDetails": "Voir les détails",
+    "viewAll": "Voir tout",
+    "details": "Détails",
     "uploadImage": "Glissez une image ou cliquez pour sélectionner",
     "maxSize5": "PNG, JPG jusqu'à 5 Mo",
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet élément ?",
     "errorOccurred": "Une erreur s'est produite, veuillez réessayer",
-    "viewAll": "Voir tout",
-    "details": "Détails",
     "prev": "Précédent",
     "next": "Suivant",
     "from": "De",
     "to": "à",
+    "of": "sur",
     "addCategory": "Ajouter une catégorie",
     "deleteCategory": "Supprimer une catégorie",
     "newCategoryName": "Nom de la nouvelle catégorie",
     "cannotDeleteCategory": "Impossible de supprimer la catégorie",
     "noCategories": "Aucune catégorie",
     "deleteConfirmCategory": "Êtes-vous sûr de supprimer la catégorie",
-    "maxImageSize": "Image trop grande — maximum 5 Mo"
+    "maxImageSize": "Image trop grande — maximum 5 Mo",
+    "retry": "Réessayer",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "export": "Exporter",
+    "allStatuses": "Tous les statuts",
+    "quantity": "Quantité",
+    "unitPrice": "Prix unitaire",
+    "subtotal": "Sous-total",
+    "city": "Ville",
+    "address": "Adresse",
+    "fullName": "Nom complet",
+    "password": "Mot de passe",
+    "plan": "Forfait",
+    "subscriptionExpiry": "Expiration abonnement",
+    "lastActivity": "Dernière activité",
+    "createdAt": "Date de création",
+    "owner": "Propriétaire",
+    "logo": "Logo"
+  },
+  "statuses": {
+    "draft": "Brouillon",
+    "confirmed": "Confirmé",
+    "completed": "Terminé",
+    "cancelled": "Annulé",
+    "paid": "Payée",
+    "unpaid": "Non payée",
+    "active": "Actif",
+    "inactive": "Inactif"
+  },
+  "units": {
+    "piece": "Pièce",
+    "kg": "Kg",
+    "liter": "Litre",
+    "meter": "Mètre",
+    "box": "Boîte",
+    "set": "Ensemble",
+    "pair": "Paire"
   },
   "login": {
     "title": "Connexion",
@@ -104,7 +146,10 @@
     "lowStockBadge": "⚠ Faible",
     "hasBookings": "Réservations",
     "currentDay": "Jour actuel",
-    "selectedDay": "Jour sélectionné"
+    "selectedDay": "Jour sélectionné",
+    "alert": "Alerte",
+    "good": "OK",
+    "productServiceWorker": "produit · service · employé"
   },
   "bookings": {
     "title": "Réservations",
@@ -112,6 +157,9 @@
     "searchPlaceholder": "Rechercher par nom ou téléphone...",
     "noBookings": "Aucune réservation",
     "remaining": "Restant",
+    "editBooking": "Modifier la réservation",
+    "moreDays": "jours",
+    "totalCount": "Total:",
     "statuses": {
       "all": "Tous",
       "draft": "Brouillon",
@@ -147,6 +195,10 @@
       "noItems": "Choisissez des produits ou services et ajoutez-les à ce jour",
       "noItemsDay": "Aucun élément",
       "available": "Disponible:",
+      "daysLabel": "Jours:",
+      "all": "Tous",
+      "searchProduct": "Rechercher un produit...",
+      "searchService": "Rechercher un service...",
       "saveAsDraft": "Enregistrer comme brouillon",
       "confirmBooking": "Confirmer la réservation",
       "saveChanges": "Enregistrer les modifications",
@@ -154,6 +206,10 @@
       "reviewTitle": "Révision des détails",
       "reviewHint": "Veuillez vérifier toutes les informations avant de confirmer",
       "clientInfoSection": "Informations du client",
+      "clientNameLabel": "Nom du client",
+      "clientPhoneLabel": "Téléphone principal",
+      "clientPhoneAltLabel": "Téléphone secondaire",
+      "eventAddressLabel": "Adresse de l'événement",
       "eventDaysSection": "Jours de l'événement",
       "itemsSection": "Produits et services",
       "totalDay": "Total du jour",
@@ -167,9 +223,13 @@
       "eventExpensesHint": "Ajoutez toutes les dépenses supplémentaires",
       "addExpense": "Ajouter une dépense",
       "expenseName": "Nom de la dépense",
+      "expenseNamePlaceholder": "Nom de la dépense",
       "noExpenses": "Aucune dépense",
       "totalExpenses": "Total dépenses",
       "totalRevenue": "Total revenus",
+      "totalRevenueHint": "DH — produits + services",
+      "totalCosts": "Total charges",
+      "totalCostsHint": "DH — employés + dépenses",
       "netProfit": "Bénéfice net",
       "totalWorkers": "Total employés",
       "financialSummary": "Résumé financier",
@@ -177,12 +237,34 @@
       "servicesRevenue": "Total services",
       "totalInvoices": "Total revenus",
       "paidDeposit": "Acompte versé",
-      "remaining": "Reste à payer",
+      "remainingCollect": "Reste à payer",
       "workersTotal": "Total employés",
       "expensesTotal": "Total dépenses",
-      "dayTask": "Tâche",
+      "workerTask": "Tâche",
       "workerDays": "Jours de travail",
-      "workerCost": "Coût employé"
+      "workerCost": "Coût employé",
+      "taskPlaceholder": "Description de la tâche...",
+      "dayTotalLabel": "Total du jour",
+      "allDaysTotal": "Total produits et services",
+      "warningAddItems": "Veuillez ajouter au moins un produit ou service pour chaque jour avant de continuer",
+      "loadingBooking": "Chargement des données de réservation...",
+      "errorSaving": "Une erreur s'est produite, veuillez réessayer"
+    },
+    "table": {
+      "image": "Image",
+      "itemName": "Produit / Service",
+      "quantity": "Quantité",
+      "originalPrice": "Prix original",
+      "bookingPrice": "Prix réservation",
+      "subtotal": "Sous-total",
+      "workerCol": "Employé",
+      "daysCol": "Jours de travail",
+      "taskCol": "Tâche",
+      "costCol": "Coût employé",
+      "expenseCol": "Dépense",
+      "qtyCol": "Qté",
+      "unitPriceCol": "Prix unitaire",
+      "totalCol": "Total"
     },
     "detail": {
       "backToBookings": "Retour aux réservations",
@@ -201,14 +283,6 @@
       "notFound": "Réservation introuvable",
       "product": "produit",
       "service": "service"
-    },
-    "table": {
-      "image": "Image",
-      "itemName": "Produit / Service",
-      "quantity": "Quantité",
-      "originalPrice": "Prix original",
-      "bookingPrice": "Prix réservation",
-      "subtotal": "Sous-total"
     }
   },
   "products": {
@@ -230,6 +304,9 @@
       "editTitle": "Modifier le produit",
       "name": "Nom du produit *",
       "namePlaceholder": "Saisir le nom du produit",
+      "description": "Description",
+      "descPlaceholder": "Brève description (optionnel)",
+      "price": "Prix *",
       "quantity": "Quantité *",
       "unit": "Unité de mesure *",
       "imageLabel": "Image du produit",
@@ -240,15 +317,21 @@
     "stock": {
       "all": "Tous",
       "low": "Stock faible",
-      "out": "Rupture de stock"
+      "out": "Rupture de stock",
+      "lowBadge": "Faible —",
+      "outBadge": "Rupture de stock"
     },
-    "pagination": "De {from} à {to} sur {total} produit(s)"
+    "category": {
+      "addNew": "Ajouter une nouvelle catégorie",
+      "delete": "Supprimer une catégorie"
+    }
   },
   "services": {
     "title": "Services",
     "addService": "Nouveau service",
     "searchPlaceholder": "Rechercher un service...",
     "noServices": "Aucun service",
+    "resetFilters": "Réinitialiser",
     "columns": {
       "service": "Service",
       "category": "Catégorie",
@@ -261,13 +344,19 @@
       "editTitle": "Modifier le service",
       "name": "Nom du service *",
       "namePlaceholder": "Saisir le nom du service",
+      "category": "Catégorie *",
+      "categorySelect": "Choisir une catégorie",
+      "descLabel": "Description *",
       "descPlaceholder": "Rédigez une description du service",
+      "price": "Prix *",
       "imageLabel": "Image du service",
       "imageHint": "(PNG, JPG — jusqu'à 5 Mo)",
       "saveService": "Enregistrer le service",
       "deleteConfirm": "Êtes-vous sûr de vouloir supprimer ce service ?"
     },
-    "pagination": "De {from} à {to} sur {total} service(s)"
+    "category": {
+      "addNew": "Ajouter une nouvelle catégorie"
+    }
   },
   "workers": {
     "title": "Employés",
@@ -306,8 +395,7 @@
       "manager": "Responsable de salle",
       "admin": "Assistant administratif",
       "other": "Autre..."
-    },
-    "pagination": "De {from} à {to} sur {total} employé(s)"
+    }
   },
   "inventory": {
     "title": "Stock",
@@ -316,28 +404,34 @@
     "totalProducts": "Total produits",
     "lowStock": "Stock faible",
     "todayBookings": "Réservations du jour",
-    "movementModal": {
-      "title": "Enregistrer un mouvement",
-      "product": "Produit",
-      "chooseProduct": "Choisir un produit...",
-      "stock": "Stock:",
-      "movementType": "Type de mouvement",
+    "moveTypes": {
       "in": "Entrée de stock",
       "out": "Sortie de stock",
       "return": "Retour",
-      "adjustment": "Ajustement",
-      "quantity": "Quantité",
-      "adjustHint": "(négatif pour diminuer)",
-      "reason": "Motif (optionnel)",
-      "chooseReason": "Choisir un motif...",
+      "adjustment": "Ajustement"
+    },
+    "reasons": {
       "broken": "Cassé",
       "damaged": "Endommagé",
       "lost": "Perdu",
       "sold": "Vendu",
       "consumed": "Consommé",
-      "other": "Autre",
+      "other": "Autre"
+    },
+    "movementModal": {
+      "title": "Enregistrer un mouvement",
+      "product": "Produit",
+      "chooseProduct": "Choisir un produit...",
+      "stockLabel": "Stock:",
+      "movementType": "Type de mouvement",
+      "quantity": "Quantité",
+      "adjustHint": "(négatif pour diminuer)",
+      "reason": "Motif (optionnel)",
+      "chooseReason": "Choisir un motif...",
       "notes": "Remarques",
-      "notesPlaceholder": "Remarques supplémentaires..."
+      "notesPlaceholder": "Remarques supplémentaires...",
+      "errorChooseProduct": "Choisir un produit",
+      "errorQuantity": "La quantité est requise"
     },
     "selectDay": "Sélectionner un jour dans le calendrier",
     "selectDayHint": "Pour afficher les produits réservés et leur disponibilité",
@@ -393,8 +487,7 @@
       "notesPlaceholder": "Remarques supplémentaires (optionnel)",
       "saveInvoice": "Enregistrer la facture"
     },
-    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cette facture ?",
-    "pagination": "De {from} à {to} sur {total} facture(s)"
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cette facture ?"
   },
   "reports": {
     "title": "Rapports",
@@ -414,7 +507,8 @@
       "netProfit": "Bénéfice net",
       "bookingCount": "Nombre de réservations",
       "avgProfit": "Bénéfice moyen/réservation",
-      "avgProfitHint": "Bénéfice net ÷ nombre de réservations"
+      "avgProfitHint": "Bénéfice net ÷ nombre de réservations",
+      "profitMargin": "Marge bénéficiaire"
     },
     "tabs": {
       "financial": "Résumé financier",
@@ -423,9 +517,45 @@
       "services": "Services",
       "workers": "Employés"
     },
+    "sections": {
+      "expenses": "Résumé des charges",
+      "invoices": "Factures de la salle",
+      "bookingExpenses": "Dépenses des réservations",
+      "workerCosts": "Coûts des employés",
+      "revenueVsExpenses": "Revenus vs Charges",
+      "revenue": "Revenus",
+      "expenses2": "Charges",
+      "profitability": "Détails de la rentabilité",
+      "topBookings": "Meilleures réservations",
+      "monthlyComparison": "Comparaison mensuelle revenus/charges",
+      "topProducts": "Produits les plus utilisés",
+      "topServices": "Services les plus demandés",
+      "allExpenses": "Total des charges"
+    },
+    "table": {
+      "month": "Mois",
+      "bookings": "Réservations",
+      "revenue": "Revenus",
+      "expenses": "Charges",
+      "netProfit": "Bénéfice net",
+      "client": "Client",
+      "status": "Statut",
+      "bookingExpenses": "Dépenses réservation",
+      "workerCosts": "Coûts employés",
+      "workerName": "Nom employé",
+      "totalCost": "Coût total",
+      "count": "Nombre",
+      "product": "Produit",
+      "service": "Service",
+      "usedQty": "Quantité",
+      "avgCost": "Coût moyen/réservation"
+    },
     "noData": "Aucune donnée",
     "noBookings": "Aucune réservation pour cette période",
-    "noWorkers": "Aucun employé pour cette période"
+    "noWorkers": "Aucun employé pour cette période",
+    "allStatuses": "Tous les statuts",
+    "booking": "réservation",
+    "times": "fois"
   },
   "settings": {
     "title": "Paramètres",
@@ -490,6 +620,20 @@
     },
     "comingSoon": "Cette section sera disponible prochainement"
   },
+  "notifications": {
+    "title": "Notifications",
+    "noNotifications": "Aucune notification",
+    "loading": "Chargement...",
+    "loadError": "Impossible de charger les notifications",
+    "retry": "Réessayer",
+    "markAllRead": "Actualiser",
+    "new": "nouveau",
+    "now": "À l'instant",
+    "ago": "il y a",
+    "minute": "minute",
+    "hour": "heure",
+    "day": "jour"
+  },
   "superAdmin": {
     "nav": {
       "dashboard": "Tableau de bord",
@@ -507,6 +651,162 @@
     "title": "Super Admin",
     "role": "Gestionnaire de plateforme",
     "closeMenu": "Fermer le menu",
-    "logout": "Déconnexion"
+    "openMenu": "Ouvrir le menu",
+    "logout": "Déconnexion",
+    "businesses": {
+      "title": "Salles",
+      "addNew": "Ajouter une salle",
+      "searchPlaceholder": "Rechercher par nom ou propriétaire...",
+      "noResults": "Aucune salle correspondante",
+      "totalResults": "Résultats totaux:",
+      "store": "salle",
+      "columns": {
+        "logo": "Logo",
+        "name": "Nom de la salle",
+        "owner": "Propriétaire",
+        "city": "Ville",
+        "bookings": "Réservations",
+        "plan": "Forfait",
+        "expiry": "Expiration",
+        "status": "Statut",
+        "actions": "Actions"
+      },
+      "stats": {
+        "total": "Total des salles",
+        "active": "Salles actives",
+        "inactive": "Salles inactives",
+        "expired": "Abonnements expirés",
+        "totalBookings": "Total réservations",
+        "totalRevenue": "Chiffre d'affaires total"
+      },
+      "actions": {
+        "viewDetails": "Voir les détails",
+        "edit": "Modifier",
+        "disable": "Désactiver",
+        "enable": "Activer",
+        "extendSub": "Prolonger l'abonnement",
+        "sendNotif": "Envoyer une notification",
+        "loginAs": "Se connecter en tant qu'utilisateur",
+        "delete": "Supprimer la salle"
+      },
+      "modal": {
+        "addTitle": "Ajouter une nouvelle salle",
+        "storeInfo": "Informations de la salle",
+        "storeName": "Nom de la salle *",
+        "storeNamePlaceholder": "Ex: Salle des Roses",
+        "phone": "Téléphone",
+        "phonePlaceholder": "0612345678",
+        "email": "E-mail",
+        "emailPlaceholder": "hall@example.com",
+        "city": "Ville",
+        "cityPlaceholder": "Ex: Oujda",
+        "address": "Adresse",
+        "addressPlaceholder": "Rue, quartier...",
+        "ownerInfo": "Informations du propriétaire",
+        "ownerName": "Nom complet *",
+        "ownerNamePlaceholder": "Mohamed El-Idrissi",
+        "ownerPhone": "Téléphone",
+        "ownerPassword": "Mot de passe * (8 caractères minimum)",
+        "subInfo": "Informations d'abonnement",
+        "planType": "Type de forfait",
+        "startDate": "Date de début",
+        "endDate": "Date de fin",
+        "saveBtn": "Enregistrer la salle",
+        "saveError": "Une erreur s'est produite lors de l'enregistrement"
+      },
+      "details": {
+        "title": "Détails de la salle",
+        "owner": "Propriétaire:",
+        "phone": "Téléphone",
+        "email": "E-mail",
+        "city": "Ville",
+        "address": "Adresse",
+        "expiry": "Expiration abonnement",
+        "lastActivity": "Dernière activité",
+        "stats": "Statistiques d'activité",
+        "financial": "Résumé financier",
+        "totalRevenue": "Chiffre d'affaires total",
+        "totalExpenses": "Charges totales",
+        "netProfit": "Bénéfice net",
+        "recentActivity": "Activités récentes"
+      },
+      "delete": {
+        "title": "Confirmer la suppression",
+        "confirm": "Êtes-vous sûr de supprimer la salle",
+        "warning": "Cette action est irréversible. Toutes les données seront définitivement supprimées.",
+        "confirmBtn": "Oui, supprimer"
+      },
+      "filters": {
+        "all": "Tous",
+        "reset": "Réinitialiser",
+        "export": "Exporter"
+      }
+    },
+    "owners": {
+      "title": "Propriétaires",
+      "searchPlaceholder": "Rechercher par nom, e-mail ou téléphone...",
+      "allStatuses": "Tous les statuts",
+      "active": "Actif",
+      "inactive": "Inactif",
+      "reset": "Réinitialiser",
+      "createdAt": "Date de création:",
+      "view": "Voir",
+      "stats": {
+        "total": "Total des propriétaires",
+        "active": "Comptes actifs",
+        "inactive": "Comptes inactifs"
+      },
+      "actions": {
+        "viewDetails": "Voir les détails",
+        "edit": "Modifier",
+        "disable": "Désactiver le compte",
+        "enable": "Activer le compte",
+        "resetPassword": "Réinitialiser le mot de passe",
+        "loginAs": "Se connecter en tant qu'utilisateur",
+        "delete": "Supprimer"
+      },
+      "editModal": {
+        "title": "Modifier le propriétaire",
+        "fullName": "Nom complet *",
+        "namePlaceholder": "Nom complet",
+        "email": "E-mail *",
+        "emailPlaceholder": "email@example.com",
+        "phone": "Téléphone",
+        "phonePlaceholder": "0612345678",
+        "saveBtn": "Enregistrer les modifications",
+        "saveError": "Une erreur s'est produite"
+      },
+      "detailsModal": {
+        "title": "Détails du propriétaire",
+        "contact": "Informations de contact",
+        "email": "E-mail",
+        "phone": "Téléphone",
+        "createdAt": "Date de création",
+        "storeInfo": "Informations de la salle",
+        "linkedStore": "Salle associée",
+        "storeName": "Nom de la salle",
+        "city": "Ville",
+        "plan": "Forfait:",
+        "noStore": "Aucune salle associée à ce compte"
+      },
+      "resetModal": {
+        "title": "Réinitialiser le mot de passe",
+        "newPasswordFor": "Définir un nouveau mot de passe pour",
+        "newPassword": "Nouveau mot de passe *",
+        "passwordHint": "Le mot de passe doit contenir au moins 8 caractères",
+        "minHint": "8 caractères minimum",
+        "confirmPassword": "Confirmer le mot de passe *",
+        "confirmPlaceholder": "Répéter le mot de passe",
+        "mismatchError": "Les mots de passe ne correspondent pas",
+        "saveError": "Une erreur s'est produite",
+        "saveBtn": "Définir le mot de passe"
+      },
+      "deleteModal": {
+        "title": "Confirmer la suppression",
+        "confirm": "Êtes-vous sûr de supprimer le compte",
+        "warning": "Le compte et la salle associée seront définitivement supprimés. Cette action est irréversible.",
+        "confirmBtn": "Oui, supprimer"
+      }
+    }
   }
 }

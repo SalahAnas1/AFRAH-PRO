@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 import { useState, useRef, useEffect, useCallback } from "react";
 import {
   Bell, CalendarDays, Package, ReceiptText, Users,
@@ -28,15 +29,20 @@ const TYPE_CFG: Record<NotifType, { icon: React.ElementType; color: string; bg: 
   financial: { icon: TrendingUp,   color: "text-emerald-600",bg: "bg-emerald-50"},
 };
 
-function timeAgo(dateStr: string): string {
-  const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
-  if (diff < 60)   return "الآن";
-  if (diff < 3600) return `منذ ${Math.floor(diff / 60)} دقيقة`;
-  if (diff < 86400)return `منذ ${Math.floor(diff / 3600)} ساعة`;
-  return `منذ ${Math.floor(diff / 86400)} يوم`;
+function useTimeAgo() {
+  const { t } = useLanguage();
+  return (dateStr: string): string => {
+    const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+    if (diff < 60)    return t("notifications.now");
+    if (diff < 3600)  return `${t("notifications.ago")} ${Math.floor(diff / 60)} ${t("notifications.minute")}`;
+    if (diff < 86400) return `${t("notifications.ago")} ${Math.floor(diff / 3600)} ${t("notifications.hour")}`;
+    return `${t("notifications.ago")} ${Math.floor(diff / 86400)} ${t("notifications.day")}`;
+  };
 }
 
 export default function NotificationBell() {
+  const { t } = useLanguage();
+  const timeAgo = useTimeAgo();
   const [open,    setOpen]    = useState(false);
   const [notifs,  setNotifs]  = useState<Notification[]>([]);
   const [unread,  setUnread]  = useState(0);

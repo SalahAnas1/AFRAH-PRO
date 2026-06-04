@@ -29,13 +29,12 @@ interface DashData {
   inventory: DashInventory[]; alerts: DashAlert[];
 }
 
-const STATUS_LABELS: Record<string,string> = { draft:"مسودة", confirmed:"مؤكد", completed:"مكتمل", cancelled:"ملغي" };
+// STATUS_LABELS via t() in component
 const STATUS_COLORS: Record<string,string> = {
   draft:"bg-gray-100 text-gray-600", confirmed:"bg-blue-100 text-blue-700",
   completed:"bg-green-100 text-green-700", cancelled:"bg-red-100 text-red-700",
 };
-const DAY_NAMES  = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
-const MONTHS_AR  = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+// calendar data via useLanguage context
 
 // ─── Calendar Grid ────────────────────────────────────────────────────────────
 
@@ -43,6 +42,7 @@ function CalendarGrid({ year, month, calMap, selectedDate, today, onDayClick }: 
   year: number; month: number; calMap: Record<string, number>;
   selectedDate: string; today: string; onDayClick: (d: string) => void;
 }) {
+  const { calendar } = useLanguage();
   const firstDay      = new Date(year, month - 1, 1).getDay();
   const daysInMonth   = new Date(year, month, 0).getDate();
   const daysInPrevMon = new Date(year, month - 1, 0).getDate();
@@ -69,7 +69,7 @@ function CalendarGrid({ year, month, calMap, selectedDate, today, onDayClick }: 
   return (
     <div>
       <div className="grid grid-cols-7 mb-1">
-        {DAY_NAMES.map((d, i) => (
+        {calendar.days.map((d, i) => (
           <div key={d} className={`text-center text-xs font-medium py-2 ${i === 0 ? "text-red-400" : "text-gray-400"}`}>{d}</div>
         ))}
       </div>
@@ -122,7 +122,7 @@ function Avatar({ name, size = "sm" }: { name: string; size?: "sm" | "md" }) {
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function DashboardPage() {
-  const { t } = useLanguage();
+  const { t, calendar } = useLanguage();
   const todayDate = new Date();
   const todayStr  = todayDate.toISOString().split("T")[0];
 
@@ -134,7 +134,7 @@ export default function DashboardPage() {
   const [loading,  setLoading]   = useState(true);
   const [hideNums, setHideNums]  = useState(true);
 
-  const fmt  = (n: number) => hideNums ? "••••••" : n.toLocaleString("ar-DZ") + " د.م";
+  const fmt  = (n: number) => hideNums ? "••••••" : n.toLocaleString(calendar.locale) + " د.م";
 
   const loadCalendar = useCallback(async (y: number, m: number) => {
     try { const res = await dashboardApi.calendar(y, m); setCalMap(res.data); } catch {}
@@ -163,8 +163,8 @@ export default function DashboardPage() {
   };
 
   const selObj   = new Date(selectedDate + "T12:00:00");
-  const selShort = selObj.toLocaleDateString("ar-DZ", { day: "numeric", month: "long" });
-  const selFull  = selObj.toLocaleDateString("ar-DZ", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  const selShort = selObj.toLocaleDateString(calendar.locale, { day: "numeric", month: "long" });
+  const selFull  = selObj.toLocaleDateString(calendar.locale, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
 
   const invStatus = !data ? "—" : data.low_stock_count > 0 ? `تنبيه (${data.low_stock_count})` : "جيد";
   const invColor  = !data ? "text-gray-400" : data.low_stock_count > 0 ? "text-orange-500" : "text-emerald-600";
@@ -282,7 +282,7 @@ export default function DashboardPage() {
                   اليوم
                 </button>
               </div>
-              <h2 className="text-lg font-bold text-gray-800">{MONTHS_AR[calMonth - 1]} {calYear}</h2>
+              <h2 className="text-lg font-bold text-gray-800">{calendar.months[calMonth - 1]} {calYear}</h2>
             </div>
 
             <CalendarGrid year={calYear} month={calMonth} calMap={calMap}
@@ -334,7 +334,7 @@ export default function DashboardPage() {
                       className="flex items-center justify-between p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
                       <div className="flex items-center gap-2.5 min-w-0">
                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold shrink-0 ${STATUS_COLORS[b.status] ?? "bg-gray-100 text-gray-600"}`}>
-                          {STATUS_LABELS[b.status] ?? b.status}
+                          {{ draft: t("bookings.statuses.draft"), confirmed: t("bookings.statuses.confirmed"), completed: t("bookings.statuses.completed"), cancelled: t("bookings.statuses.cancelled") }[b.status] ?? b.status}
                         </span>
                         <div className="min-w-0">
                           <p className="text-sm font-semibold text-gray-800 truncate">{b.client_name}</p>

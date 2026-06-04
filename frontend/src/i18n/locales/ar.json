@@ -12,6 +12,7 @@
     "logout": "تسجيل الخروج",
     "appDesc": "إدارة حفلات ومناسبات",
     "closeMenu": "إغلاق القائمة",
+    "openMenu": "فتح القائمة",
     "sysAdmin": "مدير النظام"
   },
   "common": {
@@ -25,6 +26,7 @@
     "search": "بحث",
     "filter": "فلتر",
     "resetFilters": "إعادة تعيين",
+    "reset": "إعادة التعيين",
     "loading": "جاري التحميل...",
     "noData": "لا توجد بيانات",
     "confirm": "تأكيد",
@@ -46,23 +48,63 @@
     "status": "الحالة",
     "soon": "قريباً",
     "close": "إغلاق",
+    "view": "عرض",
+    "viewDetails": "عرض التفاصيل",
+    "viewAll": "عرض الكل",
+    "details": "تفاصيل",
     "uploadImage": "اسحب صورة أو اضغط للاختيار",
     "maxSize5": "PNG, JPG حتى 5MB",
     "confirmDelete": "هل أنت متأكد من حذف هذا العنصر؟",
     "errorOccurred": "حدث خطأ، حاول مرة أخرى",
-    "viewAll": "عرض الكل",
-    "details": "تفاصيل",
     "prev": "السابق",
     "next": "التالي",
     "from": "من",
     "to": "إلى",
+    "of": "من",
     "addCategory": "إضافة فئة",
     "deleteCategory": "مسح فئة",
     "newCategoryName": "اسم الفئة الجديدة",
     "cannotDeleteCategory": "لا يمكن حذف الفئة",
     "noCategories": "لا توجد فئات",
     "deleteConfirmCategory": "هل أنت متأكد من حذف فئة",
-    "maxImageSize": "حجم الصورة كبير جداً — الحد الأقصى 5MB"
+    "maxImageSize": "حجم الصورة كبير جداً — الحد الأقصى 5MB",
+    "retry": "إعادة المحاولة",
+    "active": "نشط",
+    "inactive": "معطل",
+    "export": "تصدير",
+    "allStatuses": "كل الحالات",
+    "quantity": "الكمية",
+    "unitPrice": "سعر الوحدة",
+    "subtotal": "الإجمالي الفرعي",
+    "city": "المدينة",
+    "address": "العنوان",
+    "fullName": "الاسم الكامل",
+    "password": "كلمة المرور",
+    "plan": "الباقة",
+    "subscriptionExpiry": "انتهاء الاشتراك",
+    "lastActivity": "آخر نشاط",
+    "createdAt": "تاريخ الإنشاء",
+    "owner": "المالك",
+    "logo": "الشعار"
+  },
+  "statuses": {
+    "draft": "مسودة",
+    "confirmed": "مؤكد",
+    "completed": "مكتمل",
+    "cancelled": "ملغي",
+    "paid": "مدفوعة",
+    "unpaid": "غير مدفوعة",
+    "active": "نشط",
+    "inactive": "معطل"
+  },
+  "units": {
+    "piece": "قطعة",
+    "kg": "كيلو",
+    "liter": "لتر",
+    "meter": "متر",
+    "box": "صندوق",
+    "set": "طقم",
+    "pair": "زوج"
   },
   "login": {
     "title": "تسجيل الدخول",
@@ -104,7 +146,10 @@
     "lowStockBadge": "⚠ منخفض",
     "hasBookings": "يوجد حجوزات",
     "currentDay": "اليوم الحالي",
-    "selectedDay": "اليوم المحدد"
+    "selectedDay": "اليوم المحدد",
+    "alert": "تنبيه",
+    "good": "جيد",
+    "productServiceWorker": "منتج · خدمة · عامل"
   },
   "bookings": {
     "title": "الحجوزات",
@@ -112,6 +157,9 @@
     "searchPlaceholder": "ابحث باسم العميل أو الهاتف...",
     "noBookings": "لا توجد حجوزات",
     "remaining": "المتبقي",
+    "editBooking": "تعديل الحجز",
+    "moreDays": "أيام",
+    "totalCount": "إجمالي:",
     "statuses": {
       "all": "الكل",
       "draft": "مسودة",
@@ -147,6 +195,10 @@
       "noItems": "اختر منتجات أو خدمات من القائمة وأضفها لهذا اليوم",
       "noItemsDay": "لا توجد عناصر",
       "available": "المتوفر:",
+      "daysLabel": "أيام:",
+      "all": "كل",
+      "searchProduct": "ابحث عن منتج...",
+      "searchService": "ابحث عن خدمة...",
       "saveAsDraft": "حفظ كمسودة",
       "confirmBooking": "تأكيد الحجز",
       "saveChanges": "حفظ التعديلات",
@@ -154,6 +206,10 @@
       "reviewTitle": "مراجعة تفاصيل الحجز",
       "reviewHint": "يرجى مراجعة جميع المعلومات قبل تأكيد الحجز",
       "clientInfoSection": "معلومات العميل",
+      "clientNameLabel": "اسم العميل",
+      "clientPhoneLabel": "رقم الهاتف الأساسي",
+      "clientPhoneAltLabel": "رقم الهاتف الإضافي",
+      "eventAddressLabel": "عنوان الحفل",
       "eventDaysSection": "أيام الحفل",
       "itemsSection": "المنتجات والخدمات",
       "totalDay": "إجمالي اليوم",
@@ -167,9 +223,13 @@
       "eventExpensesHint": "أضف جميع المصاريف الإضافية لهذا الحفل",
       "addExpense": "إضافة مصروف",
       "expenseName": "اسم المصروف",
+      "expenseNamePlaceholder": "اسم المصروف",
       "noExpenses": "لا توجد مصاريف إضافية",
       "totalExpenses": "إجمالي المصاريف",
       "totalRevenue": "إجمالي الإيرادات",
+      "totalRevenueHint": "د.م — منتجات + خدمات",
+      "totalCosts": "إجمالي التكاليف",
+      "totalCostsHint": "د.م — عمال + مصاريف",
       "netProfit": "صافي الربح",
       "totalWorkers": "إجمالي العمال",
       "financialSummary": "الملخص المالي",
@@ -177,12 +237,34 @@
       "servicesRevenue": "إجمالي الخدمات",
       "totalInvoices": "إجمالي الإيرادات",
       "paidDeposit": "التسبيق المدفوع",
-      "remaining": "المتبقي للتحصيل",
+      "remainingCollect": "المتبقي للتحصيل",
       "workersTotal": "إجمالي العمال",
       "expensesTotal": "إجمالي المصاريف",
-      "dayTask": "المهمة",
+      "workerTask": "المهمة",
       "workerDays": "أيام العمل",
-      "workerCost": "سعر العامل"
+      "workerCost": "سعر العامل",
+      "taskPlaceholder": "وصف المهمة...",
+      "dayTotalLabel": "إجمالي اليوم",
+      "allDaysTotal": "إجمالي المنتجات والخدمات",
+      "warningAddItems": "يجب إضافة منتج أو خدمة واحدة على الأقل لكل يوم قبل المتابعة",
+      "loadingBooking": "جاري تحميل بيانات الحجز...",
+      "errorSaving": "حدث خطأ، حاول مجدداً"
+    },
+    "table": {
+      "image": "الصورة",
+      "itemName": "المنتج / الخدمة",
+      "quantity": "الكمية",
+      "originalPrice": "السعر الأصلي",
+      "bookingPrice": "سعر الحجز",
+      "subtotal": "الإجمالي",
+      "workerCol": "العامل",
+      "daysCol": "أيام العمل",
+      "taskCol": "المهمة",
+      "costCol": "سعر العامل",
+      "expenseCol": "اسم المصروف",
+      "qtyCol": "الكمية",
+      "unitPriceCol": "سعر الوحدة",
+      "totalCol": "الإجمالي"
     },
     "detail": {
       "backToBookings": "العودة للحجوزات",
@@ -201,14 +283,6 @@
       "notFound": "الحجز غير موجود",
       "product": "منتج",
       "service": "خدمة"
-    },
-    "table": {
-      "image": "الصورة",
-      "itemName": "المنتج / الخدمة",
-      "quantity": "الكمية",
-      "originalPrice": "السعر الأصلي",
-      "bookingPrice": "سعر الحجز",
-      "subtotal": "الإجمالي"
     }
   },
   "products": {
@@ -230,6 +304,9 @@
       "editTitle": "تعديل المنتج",
       "name": "اسم المنتج *",
       "namePlaceholder": "أدخل اسم المنتج",
+      "description": "الوصف",
+      "descPlaceholder": "وصف مختصر للمنتج (اختياري)",
+      "price": "السعر *",
       "quantity": "الكمية *",
       "unit": "وحدة القياس *",
       "imageLabel": "صورة المنتج",
@@ -240,15 +317,21 @@
     "stock": {
       "all": "الكل",
       "low": "مخزون منخفض",
-      "out": "نفد المخزون"
+      "out": "نفد المخزون",
+      "lowBadge": "منخفض —",
+      "outBadge": "نفد المخزون"
     },
-    "pagination": "من {from} إلى {to} من {total} منتج"
+    "category": {
+      "addNew": "إضافة فئة جديدة",
+      "delete": "مسح فئة"
+    }
   },
   "services": {
     "title": "الخدمات",
     "addService": "خدمة جديدة",
     "searchPlaceholder": "ابحث عن خدمة...",
     "noServices": "لا توجد خدمات",
+    "resetFilters": "إعادة تعيين",
     "columns": {
       "service": "الخدمة",
       "category": "الفئة",
@@ -261,13 +344,19 @@
       "editTitle": "تعديل الخدمة",
       "name": "اسم الخدمة *",
       "namePlaceholder": "أدخل اسم الخدمة",
+      "category": "الفئة *",
+      "categorySelect": "اختر الفئة",
+      "descLabel": "الوصف *",
       "descPlaceholder": "اكتب وصفاً مختصراً عن الخدمة",
+      "price": "السعر *",
       "imageLabel": "صورة الخدمة",
       "imageHint": "(PNG, JPG — حتى 5MB)",
       "saveService": "حفظ الخدمة",
       "deleteConfirm": "هل أنت متأكد من حذف هذه الخدمة؟"
     },
-    "pagination": "من {from} إلى {to} من {total} خدمة"
+    "category": {
+      "addNew": "إضافة فئة جديدة"
+    }
   },
   "workers": {
     "title": "العمال",
@@ -306,8 +395,7 @@
       "manager": "مدير قاعة",
       "admin": "مساعد إداري",
       "other": "أخرى..."
-    },
-    "pagination": "من {from} إلى {to} من {total} عامل"
+    }
   },
   "inventory": {
     "title": "المخزن",
@@ -316,28 +404,34 @@
     "totalProducts": "إجمالي المنتجات",
     "lowStock": "مخزون منخفض",
     "todayBookings": "حجوزات اليوم",
-    "movementModal": {
-      "title": "تسجيل حركة مخزن",
-      "product": "المنتج",
-      "chooseProduct": "اختر منتجاً...",
-      "stock": "المخزون:",
-      "movementType": "نوع الحركة",
+    "moveTypes": {
       "in": "دخول مخزن",
       "out": "خروج مخزن",
       "return": "إرجاع",
-      "adjustment": "تعديل",
-      "quantity": "الكمية",
-      "adjustHint": "(سالب للتخفيض)",
-      "reason": "السبب (اختياري)",
-      "chooseReason": "اختر سبباً...",
+      "adjustment": "تعديل"
+    },
+    "reasons": {
       "broken": "مكسور",
       "damaged": "تالف",
       "lost": "مفقود",
       "sold": "مباع",
       "consumed": "مستهلك",
-      "other": "أخرى",
+      "other": "أخرى"
+    },
+    "movementModal": {
+      "title": "تسجيل حركة مخزن",
+      "product": "المنتج",
+      "chooseProduct": "اختر منتجاً...",
+      "stockLabel": "المخزون:",
+      "movementType": "نوع الحركة",
+      "quantity": "الكمية",
+      "adjustHint": "(سالب للتخفيض)",
+      "reason": "السبب (اختياري)",
+      "chooseReason": "اختر سبباً...",
       "notes": "ملاحظات",
-      "notesPlaceholder": "ملاحظات إضافية..."
+      "notesPlaceholder": "ملاحظات إضافية...",
+      "errorChooseProduct": "اختر منتجاً",
+      "errorQuantity": "الكمية مطلوبة"
     },
     "selectDay": "اختر يوماً من التقويم",
     "selectDayHint": "لعرض المنتجات المحجوزة وتوفرها",
@@ -393,8 +487,7 @@
       "notesPlaceholder": "أي ملاحظات إضافية (اختياري)",
       "saveInvoice": "حفظ الفاتورة"
     },
-    "deleteConfirm": "هل أنت متأكد من حذف هذه الفاتورة؟",
-    "pagination": "من {from} إلى {to} من {total} فاتورة"
+    "deleteConfirm": "هل أنت متأكد من حذف هذه الفاتورة؟"
   },
   "reports": {
     "title": "التقارير",
@@ -414,7 +507,8 @@
       "netProfit": "صافي الربح",
       "bookingCount": "عدد الحجوزات",
       "avgProfit": "متوسط ربح الحجز",
-      "avgProfitHint": "صافي الربح ÷ عدد الحجوزات"
+      "avgProfitHint": "صافي الربح ÷ عدد الحجوزات",
+      "profitMargin": "هامش الربح"
     },
     "tabs": {
       "financial": "ملخص مالي",
@@ -423,9 +517,45 @@
       "services": "الخدمات",
       "workers": "العمال"
     },
+    "sections": {
+      "expenses": "ملخص المصاريف",
+      "invoices": "فواتير المحل",
+      "bookingExpenses": "مصاريف الحجوزات",
+      "workerCosts": "تكلفة العمال",
+      "revenueVsExpenses": "الإيرادات vs المصاريف",
+      "revenue": "إيرادات",
+      "expenses2": "مصاريف",
+      "profitability": "تفاصيل الربحية",
+      "topBookings": "أعلى الحجوزات ربحاً",
+      "monthlyComparison": "المقارنة الشهرية للإيرادات والمصاريف",
+      "topProducts": "أكثر المنتجات استعمالاً",
+      "topServices": "أكثر الخدمات طلباً",
+      "allExpenses": "إجمالي التكاليف"
+    },
+    "table": {
+      "month": "الشهر",
+      "bookings": "الحجوزات",
+      "revenue": "الإيرادات",
+      "expenses": "المصاريف",
+      "netProfit": "صافي الربح",
+      "client": "العميل",
+      "status": "الحالة",
+      "bookingExpenses": "مصاريف الحجز",
+      "workerCosts": "تكلفة العمال",
+      "workerName": "اسم العامل",
+      "totalCost": "إجمالي التكلفة",
+      "count": "العدد",
+      "product": "المنتج",
+      "service": "الخدمة",
+      "usedQty": "الكمية",
+      "avgCost": "متوسط تكلفة حجز"
+    },
     "noData": "لا توجد بيانات",
     "noBookings": "لا توجد حجوزات لهذه الفترة",
-    "noWorkers": "لا يوجد عمال لهذه الفترة"
+    "noWorkers": "لا يوجد عمال لهذه الفترة",
+    "allStatuses": "جميع الحالات",
+    "booking": "حجز",
+    "times": "مرة"
   },
   "settings": {
     "title": "الإعدادات",
@@ -490,6 +620,20 @@
     },
     "comingSoon": "سيتم إضافة هذا القسم قريباً"
   },
+  "notifications": {
+    "title": "الإشعارات",
+    "noNotifications": "لا توجد إشعارات",
+    "loading": "جاري التحميل...",
+    "loadError": "تعذّر تحميل الإشعارات",
+    "retry": "إعادة المحاولة",
+    "markAllRead": "تحديث الإشعارات",
+    "new": "جديد",
+    "now": "الآن",
+    "ago": "منذ",
+    "minute": "دقيقة",
+    "hour": "ساعة",
+    "day": "يوم"
+  },
   "superAdmin": {
     "nav": {
       "dashboard": "لوحة التحكم",
@@ -507,6 +651,162 @@
     "title": "سوبر أدمن",
     "role": "مدير المنصة",
     "closeMenu": "إغلاق القائمة",
-    "logout": "تسجيل الخروج"
+    "openMenu": "فتح القائمة",
+    "logout": "تسجيل الخروج",
+    "businesses": {
+      "title": "المحلات",
+      "addNew": "إضافة محل جديد",
+      "searchPlaceholder": "بحث باسم المحل أو المالك...",
+      "noResults": "لا توجد محلات مطابقة للبحث",
+      "totalResults": "إجمالي النتائج:",
+      "store": "محل",
+      "columns": {
+        "logo": "الشعار",
+        "name": "اسم المحل",
+        "owner": "المالك",
+        "city": "المدينة",
+        "bookings": "الحجوزات",
+        "plan": "الباقة",
+        "expiry": "انتهاء الاشتراك",
+        "status": "الحالة",
+        "actions": "الإجراءات"
+      },
+      "stats": {
+        "total": "إجمالي المحلات",
+        "active": "المحلات النشطة",
+        "inactive": "المحلات المعطلة",
+        "expired": "اشتراكات منتهية",
+        "totalBookings": "إجمالي الحجوزات",
+        "totalRevenue": "إجمالي الإيرادات"
+      },
+      "actions": {
+        "viewDetails": "عرض التفاصيل",
+        "edit": "تعديل",
+        "disable": "تعطيل المحل",
+        "enable": "تفعيل المحل",
+        "extendSub": "تمديد الاشتراك",
+        "sendNotif": "إرسال إشعار",
+        "loginAs": "الدخول كمستخدم",
+        "delete": "حذف المحل"
+      },
+      "modal": {
+        "addTitle": "إضافة محل جديد",
+        "storeInfo": "معلومات المحل",
+        "storeName": "اسم المحل *",
+        "storeNamePlaceholder": "مثال: قاعة الورود",
+        "phone": "الهاتف",
+        "phonePlaceholder": "0612345678",
+        "email": "البريد الإلكتروني",
+        "emailPlaceholder": "hall@example.com",
+        "city": "المدينة",
+        "cityPlaceholder": "مثال: وجدة",
+        "address": "العنوان",
+        "addressPlaceholder": "الشارع، الحي...",
+        "ownerInfo": "معلومات صاحب المحل",
+        "ownerName": "الاسم الكامل *",
+        "ownerNamePlaceholder": "محمد الإدريسي",
+        "ownerPhone": "رقم الهاتف",
+        "ownerPassword": "كلمة المرور * (8 أحرف على الأقل)",
+        "subInfo": "معلومات الاشتراك",
+        "planType": "نوع الباقة",
+        "startDate": "تاريخ بداية الاشتراك",
+        "endDate": "تاريخ نهاية الاشتراك",
+        "saveBtn": "حفظ المحل",
+        "saveError": "حدث خطأ أثناء الحفظ"
+      },
+      "details": {
+        "title": "تفاصيل المحل",
+        "owner": "المالك:",
+        "phone": "الهاتف",
+        "email": "البريد",
+        "city": "المدينة",
+        "address": "العنوان",
+        "expiry": "انتهاء الاشتراك",
+        "lastActivity": "آخر نشاط",
+        "stats": "إحصائيات النشاط",
+        "financial": "الملخص المالي",
+        "totalRevenue": "إجمالي الإيرادات",
+        "totalExpenses": "إجمالي المصاريف",
+        "netProfit": "صافي الربح",
+        "recentActivity": "آخر النشاطات"
+      },
+      "delete": {
+        "title": "تأكيد حذف المحل",
+        "confirm": "هل أنت متأكد من حذف محل",
+        "warning": "هذا الإجراء لا يمكن التراجع عنه. سيتم حذف جميع بيانات المحل نهائياً.",
+        "confirmBtn": "نعم، احذف المحل"
+      },
+      "filters": {
+        "all": "الكل",
+        "reset": "إعادة التعيين",
+        "export": "تصدير"
+      }
+    },
+    "owners": {
+      "title": "أصحاب المحلات",
+      "searchPlaceholder": "بحث بالاسم أو البريد أو الهاتف...",
+      "allStatuses": "كل الحالات",
+      "active": "نشط",
+      "inactive": "معطل",
+      "reset": "إعادة التعيين",
+      "createdAt": "تاريخ الإنشاء:",
+      "view": "عرض",
+      "stats": {
+        "total": "إجمالي أصحاب المحلات",
+        "active": "الحسابات النشطة",
+        "inactive": "الحسابات المعطلة"
+      },
+      "actions": {
+        "viewDetails": "عرض التفاصيل",
+        "edit": "تعديل",
+        "disable": "تعطيل الحساب",
+        "enable": "تفعيل الحساب",
+        "resetPassword": "إعادة تعيين كلمة المرور",
+        "loginAs": "الدخول كمستخدم",
+        "delete": "حذف"
+      },
+      "editModal": {
+        "title": "تعديل بيانات صاحب المحل",
+        "fullName": "الاسم الكامل *",
+        "namePlaceholder": "الاسم الكامل",
+        "email": "البريد الإلكتروني *",
+        "emailPlaceholder": "email@example.com",
+        "phone": "رقم الهاتف",
+        "phonePlaceholder": "0612345678",
+        "saveBtn": "حفظ التعديلات",
+        "saveError": "حدث خطأ أثناء الحفظ"
+      },
+      "detailsModal": {
+        "title": "تفاصيل صاحب المحل",
+        "contact": "معلومات التواصل",
+        "email": "البريد الإلكتروني",
+        "phone": "رقم الهاتف",
+        "createdAt": "تاريخ الإنشاء",
+        "storeInfo": "معلومات المحل",
+        "linkedStore": "المحل المرتبط",
+        "storeName": "اسم المحل",
+        "city": "المدينة",
+        "plan": "الباقة:",
+        "noStore": "لا يوجد محل مرتبط بهذا الحساب"
+      },
+      "resetModal": {
+        "title": "إعادة تعيين كلمة المرور",
+        "newPasswordFor": "تعيين كلمة مرور جديدة لـ",
+        "newPassword": "كلمة المرور الجديدة *",
+        "passwordHint": "كلمة المرور يجب أن تكون 8 أحرف على الأقل",
+        "minHint": "8 أحرف على الأقل",
+        "confirmPassword": "تأكيد كلمة المرور *",
+        "confirmPlaceholder": "أعد كتابة كلمة المرور",
+        "mismatchError": "كلمتا المرور غير متطابقتين",
+        "saveError": "حدث خطأ أثناء تعيين كلمة المرور",
+        "saveBtn": "تعيين كلمة المرور"
+      },
+      "deleteModal": {
+        "title": "تأكيد حذف الحساب",
+        "confirm": "هل أنت متأكد من حذف حساب",
+        "warning": "سيتم حذف الحساب والمحل المرتبط به بشكل نهائي. لا يمكن التراجع عن هذا الإجراء.",
+        "confirmBtn": "نعم، احذف الحساب"
+      }
+    }
   }
 }

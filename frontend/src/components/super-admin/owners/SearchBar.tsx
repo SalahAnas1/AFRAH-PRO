@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 
 import { Search, X } from "lucide-react";
 import type { FiltersState } from "./types";
@@ -9,7 +10,9 @@ interface Props {
   onReset:  () => void;
 }
 
-export default function SearchBar({ filters, onChange, onReset }: Props) {
+export default function SearchBar({
+  filters, onChange, onReset }: Props) {
+  const { t } = useLanguage();
   const hasFilters = filters.search || filters.status !== "all";
 
   return (
@@ -22,7 +25,7 @@ export default function SearchBar({ filters, onChange, onReset }: Props) {
           type="text"
           value={filters.search}
           onChange={(e) => onChange({ search: e.target.value })}
-          placeholder="بحث بالاسم أو البريد أو الهاتف..."
+          placeholder={t("superAdmin.owners.searchPlaceholder")}
           className="w-full bg-cream-light border border-border rounded-lg pr-9 pl-3 py-2 text-sm text-dark placeholder:text-gray-text focus:outline-none focus:border-gold"
         />
       </div>

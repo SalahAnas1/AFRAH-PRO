@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 
 import { useState } from "react";
 import { MoreVertical } from "lucide-react";
@@ -21,6 +22,7 @@ export default function BusinessesTable({
   businesses, onView, onEdit, onToggleStatus,
   onDelete, onNotify, onExtend, onLoginAs,
 }: Props) {
+  const { t } = useLanguage();
   const [openMenu, setOpenMenu] = useState<{ id: number; rect: DOMRect } | null>(null);
 
   const toggleMenu = (biz: Business, e: React.MouseEvent<HTMLButtonElement>) => {

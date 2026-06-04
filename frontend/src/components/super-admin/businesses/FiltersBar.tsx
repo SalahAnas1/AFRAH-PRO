@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 
 import { Search, X, Plus, Download } from "lucide-react";
 import type { FiltersState } from "./types";
@@ -14,12 +15,14 @@ interface Props {
 
 const selectCls = "bg-cream-light border border-border rounded-lg px-3 py-2 text-sm text-dark focus:outline-none focus:border-gold";
 
-export default function FiltersBar({ filters, onChange, onReset, onAdd, onExport }: Props) {
+export default function FiltersBar({
+  filters, onChange, onReset, onAdd, onExport }: Props) {
+  const { t } = useLanguage();
   const hasFilters =
     filters.search ||
-    filters.city   !== "الكل" ||
+    filters.city   !== t("superAdmin.businesses.filters.all") ||
     filters.status !== "all"  ||
-    filters.plan   !== "الكل" ||
+    filters.plan   !== t("superAdmin.businesses.filters.all") ||
     filters.dateFrom;
 
   return (
@@ -33,7 +36,7 @@ export default function FiltersBar({ filters, onChange, onReset, onAdd, onExport
             type="text"
             value={filters.search}
             onChange={(e) => onChange({ search: e.target.value })}
-            placeholder="بحث باسم المحل أو المالك..."
+            placeholder={t("superAdmin.businesses.searchPlaceholder")}
             className="w-full bg-cream-light border border-border rounded-lg pr-9 pl-3 py-2 text-sm text-dark placeholder:text-gray-text focus:outline-none focus:border-gold"
           />
         </div>

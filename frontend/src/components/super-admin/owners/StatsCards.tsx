@@ -1,13 +1,16 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 
 import { Users, UserCheck, UserX } from "lucide-react";
 import type { StatsData } from "./types";
 
-export default function StatsCards({ stats }: { stats: StatsData }) {
+export default function StatsCards({
+  stats }: { stats: StatsData }) {
+  const { t } = useLanguage();
   const cards = [
-    { label: "إجمالي أصحاب المحلات", value: stats.total,    icon: Users,      color: "text-navy",        bg: "bg-navy/10"   },
-    { label: "الحسابات النشطة",      value: stats.active,   icon: UserCheck,  color: "text-green-600",   bg: "bg-green-50"  },
-    { label: "الحسابات المعطلة",     value: stats.disabled, icon: UserX,      color: "text-gray-500",    bg: "bg-gray-100"  },
+    { label: t("superAdmin.owners.stats.total"), value: stats.total,    icon: Users,      color: "text-navy",        bg: "bg-navy/10"   },
+    { label: t("superAdmin.owners.stats.active"),      value: stats.active,   icon: UserCheck,  color: "text-green-600",   bg: "bg-green-50"  },
+    { label: t("superAdmin.owners.stats.inactive"),     value: stats.disabled, icon: UserX,      color: "text-gray-500",    bg: "bg-gray-100"  },
   ];
 
   return (

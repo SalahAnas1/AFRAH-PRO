@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 
 import { X, Mail, Phone, Store, MapPin, Calendar, CreditCard } from "lucide-react";
 import type { Owner } from "./types";
@@ -15,7 +16,9 @@ interface Props {
   onClose: () => void;
 }
 
-export default function OwnerDetailsModal({ owner, onClose }: Props) {
+export default function OwnerDetailsModal({
+  owner, onClose }: Props) {
+  const { t } = useLanguage();
   const statusCfg = STATUS_CONFIG[owner.status];
   const color     = avatarColor(owner.name);
 
@@ -50,18 +53,18 @@ export default function OwnerDetailsModal({ owner, onClose }: Props) {
 
           {/* معلومات التواصل */}
           <div className="space-y-3">
-            <Row icon={Mail}     label="البريد الإلكتروني" value={owner.email || "—"} />
-            <Row icon={Phone}    label="رقم الهاتف"         value={owner.phone || "—"} />
-            <Row icon={Calendar} label="تاريخ الإنشاء"      value={formatDate(owner.createdAt)} />
+            <Row icon={Mail}     label={t("common.email")} value={owner.email || "—"} />
+            <Row icon={Phone}    label={t("common.phone")}         value={owner.phone || "—"} />
+            <Row icon={Calendar} label={t("common.createdAt")}      value={formatDate(owner.createdAt)} />
           </div>
 
           {/* معلومات المحل */}
           {owner.business ? (
             <div className="bg-cream-light rounded-xl p-4 space-y-3">
               <p className="text-xs font-bold text-gray-text">المحل المرتبط</p>
-              <Row icon={Store}   label="اسم المحل" value={owner.business.name} />
+              <Row icon={Store}   label={t("superAdmin.owners.detailsModal.storeName")} value={owner.business.name} />
               {owner.business.city && (
-                <Row icon={MapPin} label="المدينة"  value={owner.business.city} />
+                <Row icon={MapPin} label={t("common.city")}  value={owner.business.city} />
               )}
               <div className="flex items-center gap-2">
                 <CreditCard size={14} className="text-gray-text flex-shrink-0" />
@@ -94,6 +97,7 @@ export default function OwnerDetailsModal({ owner, onClose }: Props) {
 }
 
 function Row({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) {
+  const { t } = useLanguage();
   return (
     <div className="flex items-center gap-2.5">
       <Icon size={14} className="text-gray-text flex-shrink-0" />

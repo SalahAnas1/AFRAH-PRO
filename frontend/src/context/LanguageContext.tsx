@@ -1,11 +1,4 @@
 "use client";
-/**
- * LanguageContext — نظام تعدد اللغات
- *
- * الاستخدام في أي مكوّن:
- *   const { t, lang, setLang, dir } = useLanguage();
- *   <p>{t("products.title")}</p>
- */
 import {
   createContext, useContext, useState,
   useEffect, useCallback, type ReactNode,
@@ -17,11 +10,31 @@ export type Lang = "ar" | "fr";
 
 const translations: Record<Lang, typeof ar> = { ar, fr };
 
+const CALENDAR_DATA = {
+  ar: {
+    days:   ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
+    months: ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"],
+    locale: "ar-DZ",
+  },
+  fr: {
+    days:   ["Dim","Lun","Mar","Mer","Jeu","Ven","Sam"],
+    months: ["Janv","Févr","Mars","Avr","Mai","Juin","Juil","Août","Sept","Oct","Nov","Déc"],
+    locale: "fr-FR",
+  },
+};
+
+export interface CalendarData {
+  days: string[];
+  months: string[];
+  locale: string;
+}
+
 interface LanguageContextType {
   lang: Lang;
   dir: "rtl" | "ltr";
   setLang: (l: Lang) => void;
   t: (key: string) => string;
+  calendar: CalendarData;
 }
 
 const LanguageContext = createContext<LanguageContextType | null>(null);
@@ -29,7 +42,6 @@ const LanguageContext = createContext<LanguageContextType | null>(null);
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>("ar");
 
-  // قراءة اللغة المحفوظة من localStorage عند أول تحميل
   useEffect(() => {
     try {
       const saved = localStorage.getItem("app_language") as Lang | null;
@@ -37,7 +49,6 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     } catch {}
   }, []);
 
-  // تحديث dir و lang على عنصر <html> عند تغيير اللغة
   useEffect(() => {
     document.documentElement.dir  = lang === "ar" ? "rtl" : "ltr";
     document.documentElement.lang = lang;
@@ -48,7 +59,6 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     setLangState(l);
   }, []);
 
-  // دالة الترجمة — تقبل مسار مثل "products.title"
   const t = useCallback((key: string): string => {
     const keys = key.split(".");
     let current: unknown = translations[lang];
@@ -60,7 +70,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }, [lang]);
 
   return (
-    <LanguageContext.Provider value={{ lang, dir: lang === "ar" ? "rtl" : "ltr", setLang, t }}>
+    <LanguageContext.Provider value={{
+      lang,
+      dir: lang === "ar" ? "rtl" : "ltr",
+      setLang,
+      t,
+      calendar: CALENDAR_DATA[lang],
+    }}>
       {children}
     </LanguageContext.Provider>
   );

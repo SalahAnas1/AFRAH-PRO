@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 
 import { useState } from "react";
 import { X, Eye, EyeOff, Loader2, KeyRound } from "lucide-react";
@@ -10,7 +11,9 @@ interface Props {
   onCancel:  () => void;
 }
 
-export default function ResetPasswordModal({ owner, onSave, onCancel }: Props) {
+export default function ResetPasswordModal({
+  owner, onSave, onCancel }: Props) {
+  const { t } = useLanguage();
   const [password,  setPassword]  = useState("");
   const [confirm,   setConfirm]   = useState("");
   const [showPass,  setShowPass]  = useState(false);
@@ -20,11 +23,12 @@ export default function ResetPasswordModal({ owner, onSave, onCancel }: Props) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password.length < 8) {
+  const { t } = useLanguage();
       setError("كلمة المرور يجب أن تكون 8 أحرف على الأقل");
       return;
     }
     if (password !== confirm) {
-      setError("كلمتا المرور غير متطابقتين");
+      setError(t("superAdmin.owners.resetModal.mismatchError"));
       return;
     }
     setLoading(true);
@@ -81,7 +85,7 @@ export default function ResetPasswordModal({ owner, onSave, onCancel }: Props) {
                 type={showPass ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="8 أحرف على الأقل"
+                placeholder={t("superAdmin.owners.resetModal.minHint")}
                 className={`${inputCls} pl-9`}
               />
               <button type="button" onClick={() => setShowPass(!showPass)}
@@ -101,7 +105,7 @@ export default function ResetPasswordModal({ owner, onSave, onCancel }: Props) {
               type={showPass ? "text" : "password"}
               value={confirm}
               onChange={(e) => setConfirm(e.target.value)}
-              placeholder="أعد كتابة كلمة المرور"
+              placeholder={t("superAdmin.owners.resetModal.confirmPlaceholder")}
               className={inputCls}
             />
           </div>
@@ -114,7 +118,7 @@ export default function ResetPasswordModal({ owner, onSave, onCancel }: Props) {
             <button type="submit" disabled={loading}
               className="flex-1 py-2.5 bg-gold text-navy rounded-xl text-sm font-semibold hover:bg-gold/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-60">
               {loading && <Loader2 size={14} className="animate-spin" />}
-              {loading ? "جارِ الحفظ..." : "تعيين كلمة المرور"}
+              {loading ? t("common.saving") : t("superAdmin.owners.resetModal.saveBtn")}
             </button>
           </div>
 

@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 
 import { MoreVertical, Eye, Store, MapPin, Phone, Mail, Calendar } from "lucide-react";
 import type { Owner } from "./types";
@@ -11,7 +12,8 @@ interface Props {
   isMenuOpen:  boolean;
 }
 
-export default function OwnerCard({ owner, onView, onMenuOpen, isMenuOpen }: Props) {
+export default function OwnerCard({
+  owner, onView, onMenuOpen, isMenuOpen }: Props) {
   const statusCfg = STATUS_CONFIG[owner.status];
   const color     = avatarColor(owner.name);
   const initial   = owner.name.charAt(0);
@@ -80,6 +82,7 @@ export default function OwnerCard({ owner, onView, onMenuOpen, isMenuOpen }: Pro
 }
 
 function InfoRow({ icon: Icon, value }: { icon: React.ElementType; value: string }) {
+  const { t } = useLanguage();
   return (
     <div className="flex items-center gap-2">
       <Icon size={13} className="text-gray-text flex-shrink-0" />

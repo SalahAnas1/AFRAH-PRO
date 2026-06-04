@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
@@ -22,6 +23,7 @@ export default function ActionsMenu({
   business, anchorRect, onView, onEdit, onToggleStatus,
   onExtend, onNotify, onLoginAs, onDelete, onClose,
 }: Props) {
+  const { t } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
 
   // إغلاق عند الضغط خارج القائمة
@@ -68,25 +70,25 @@ export default function ActionsMenu({
       style={{ position: "absolute", top: finalTop, left, width: MENU_WIDTH, zIndex: 9999 }}
       className="bg-white rounded-xl shadow-xl border border-border py-1"
     >
-      {row(onView,  <Eye       size={15} className="text-gray-text" />, "عرض التفاصيل")}
-      {row(onEdit,  <Pencil    size={15} className="text-gray-text" />, "تعديل")}
+      {row(onView, <Eye       size={15} className="text-gray-text" />, t("superAdmin.businesses.actions.viewDetails"))}
+      {row(onEdit, <Pencil    size={15} className="text-gray-text" />, t("common.edit"))}
 
       <div className="border-t border-border my-1" />
 
       {isActive
-        ? row(onToggleStatus, <Power size={15} />, "تعطيل المحل",  "text-orange-600 hover:bg-orange-50")
-        : row(onToggleStatus, <Power size={15} />, "تفعيل المحل",  "text-green-600 hover:bg-green-50")
+        ? row(onToggleStatus, <Power size={15} />, t("superAdmin.businesses.actions.disable"),  "text-orange-600 hover:bg-orange-50")
+        : row(onToggleStatus, <Power size={15} />, t("superAdmin.businesses.actions.enable"),  "text-green-600 hover:bg-green-50")
       }
-      {row(onExtend, <CalendarPlus size={15} className="text-gray-text" />, "تمديد الاشتراك")}
+      {row(onExtend, <CalendarPlus size={15} className="text-gray-text" />, t("superAdmin.businesses.actions.extendSub"))}
 
       <div className="border-t border-border my-1" />
 
-      {row(onNotify,  <Bell  size={15} className="text-gray-text" />, "إرسال إشعار")}
-      {row(onLoginAs, <LogIn size={15} />,                             "الدخول كمستخدم", "text-blue-600 hover:bg-blue-50")}
+      {row(onNotify, <Bell  size={15} className="text-gray-text" />, t("superAdmin.businesses.actions.sendNotif"))}
+      {row(onLoginAs, <LogIn size={15} />, t("superAdmin.businesses.actions.loginAs"), "text-blue-600 hover:bg-blue-50")}
 
       <div className="border-t border-border my-1" />
 
-      {row(onDelete, <Trash2 size={15} />, "حذف المحل", "text-red-500 hover:bg-red-50")}
+      {row(onDelete, <Trash2 size={15} />, t("superAdmin.businesses.actions.delete"), "text-red-500 hover:bg-red-50")}
     </div>,
     document.body
   );

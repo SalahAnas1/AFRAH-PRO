@@ -27,7 +27,7 @@ interface TopInvoice  { supplier: string; invoice_date: string; total_amount: nu
 
 const STATUS_LABELS: Record<string, string> = { draft:"مسودة", confirmed:"مؤكد", completed:"مكتمل", cancelled:"ملغي" };
 const STATUS_COLORS: Record<string, string>  = { draft:"bg-gray-100 text-gray-600", confirmed:"bg-blue-100 text-blue-700", completed:"bg-green-100 text-green-700", cancelled:"bg-red-100 text-red-700" };
-const MONTHS_AR = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+// MONTHS_AR via useLanguage context
 
 // ─── SVG Donut Chart ──────────────────────────────────────────────────────────
 
@@ -103,6 +103,7 @@ function LineChart({ data }: { data: DailyData[] }) {
 // ─── Annual Bar Chart ─────────────────────────────────────────────────────────
 
 function MonthlyBarChart({ data }: { data: MonthlyData[] }) {
+  const { calendar } = useLanguage();
   const max = Math.max(...data.flatMap(d => [d.revenue, d.expenses]), 1);
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-4">
@@ -117,7 +118,7 @@ function MonthlyBarChart({ data }: { data: MonthlyData[] }) {
                 <div title={`إيرادات: ${d.revenue.toLocaleString("ar-DZ")}`}  className="w-5/12 rounded-t-sm bg-rose-400"   style={{ height: Math.max(revH, d.revenue  > 0 ? 2 : 0) }} />
                 <div title={`مصاريف: ${d.expenses.toLocaleString("ar-DZ")}`} className="w-5/12 rounded-t-sm bg-orange-300" style={{ height: Math.max(expH, d.expenses > 0 ? 2 : 0) }} />
               </div>
-              <span className="text-[8px] text-gray-400 mt-1">{MONTHS_AR[d.month-1].slice(0,3)}</span>
+              <span className="text-[8px] text-gray-400 mt-1">{calendar.months[d.month-1].slice(0,3)}</span>
               {d.bookings_count > 0 && (
                 <span className={`text-[7px] font-bold ${d.net_profit >= 0 ? "text-green-600" : "text-red-500"}`}>
                   {d.net_profit >= 0 ? "+" : ""}{Math.round(d.net_profit / 1000)}k
@@ -298,7 +299,7 @@ type PeriodType = "daily" | "monthly" | "annual";
 type TabType    = "summary" | "bookings" | "products" | "services" | "workers";
 
 export default function ReportsPage() {
-  const { t } = useLanguage();
+  const { t, calendar } = useLanguage();
   const today = new Date();
   const todayStr = today.toISOString().split("T")[0];
 
@@ -434,7 +435,7 @@ export default function ReportsPage() {
             <>
               <select value={selMonth} onChange={e => setSelMonth(+e.target.value)}
                 className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-400">
-                {MONTHS_AR.map((m, i) => <option key={i} value={i+1}>{m}</option>)}
+                {calendar.months.map((m, i) => <option key={i} value={i+1}>{m}</option>)}
               </select>
               <select value={selYear} onChange={e => setSelYear(+e.target.value)}
                 className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-rose-400">
@@ -606,7 +607,7 @@ export default function ReportsPage() {
                       <tbody>
                         {annualMonthly.map(d => (
                           <tr key={d.month} className="border-b border-gray-50 hover:bg-gray-50/50">
-                            <td className="px-4 py-2.5 font-medium text-gray-700">{MONTHS_AR[d.month-1]}</td>
+                            <td className="px-4 py-2.5 font-medium text-gray-700">{calendar.months[d.month-1]}</td>
                             <td className="px-4 py-2.5 text-gray-600">{fmtN(d.bookings_count)}</td>
                             <td className="px-4 py-2.5 font-semibold text-green-600">{fmt(d.revenue)}</td>
                             <td className="px-4 py-2.5 text-orange-500">{fmt(d.expenses)}</td>

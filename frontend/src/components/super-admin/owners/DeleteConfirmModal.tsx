@@ -1,4 +1,5 @@
 "use client";
+import { useLanguage } from "@/context/LanguageContext";
 
 import { X, Trash2 } from "lucide-react";
 import type { Owner } from "./types";
@@ -9,7 +10,9 @@ interface Props {
   onCancel:  () => void;
 }
 
-export default function DeleteConfirmModal({ owner, onConfirm, onCancel }: Props) {
+export default function DeleteConfirmModal({
+  owner, onConfirm, onCancel }: Props) {
+  const { t } = useLanguage();
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
       <div className="absolute inset-0 bg-black/40" onClick={onCancel} />
